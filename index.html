@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CDSS TORCH Neonatal</title>
+<meta name="description" content="Apoyo a la decisión clínica para infecciones congénitas y perinatales (TORCH y emergentes): diagnóstico secuencial, interpretación, tratamiento y seguimiento.">
+<meta name="theme-color" content="#1A0F0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TORCH Neo">
+<link id="appleIcon" rel="apple-touch-icon" href="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F0E6; --paper:#FFFBF5; --sand:#EADBC8; --line:#E2D2BE;
+  --terra:#B4532A; --terra-d:#8C3B1C; --terra-l:#E9A27C;
+  --ink:#2A1A12; --ink2:#5B4334; --mute:#8A7362;
+  --olive:#5E6B3A; --teal:#2F6F6A; --gold:#C8922E; --red:#A3271F; --green:#3E7A47;
+  --night:#1A0F0A;
+  --serif:'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --r:16px; --safeT:env(safe-area-inset-top); --safeB:env(safe-area-inset-bottom);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--serif);font-weight:700;letter-spacing:-.01em;margin:0}
+.mono{font-family:var(--mono)}
+.hidden{display:none!important}
+
+/* ============ CARÁTULA ============ */
+#cover{position:fixed;inset:0;z-index:50;background:radial-gradient(120% 80% at 50% 28%,#4A2416 0%,#26140C 45%,#120A06 100%);color:#F7EADB;overflow-y:auto;overflow-x:hidden;padding:calc(var(--safeT) + 18px) 20px calc(var(--safeB) + 24px);display:flex;flex-direction:column;align-items:center}
+#cover::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(233,162,124,.18) 1px,transparent 1px);background-size:22px 22px;mask-image:radial-gradient(80% 60% at 50% 35%,#000 0%,transparent 75%);-webkit-mask-image:radial-gradient(80% 60% at 50% 35%,#000 0%,transparent 75%);pointer-events:none}
+.cv-top{width:100%;max-width:560px;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#D9B79E;opacity:.9;position:relative}
+.cv-top b{color:#F3C9A9;font-weight:600}
+.cv-art{position:relative;width:min(88vw,400px);aspect-ratio:1;margin:8px 0 -6px}
+.cv-art svg{width:100%;height:100%;overflow:visible}
+.orbit{transform-origin:200px 200px;animation:spin 60s linear infinite}
+.orbit2{transform-origin:200px 200px;animation:spin 110s linear infinite reverse}
+.orbit .node-lbl,.orbit2 .node-lbl{animation:spin 60s linear infinite reverse;transform-box:fill-box;transform-origin:center}
+.orbit2 .node-lbl{animation:spin 110s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pulse{animation:pulse 4.5s ease-in-out infinite;transform-origin:200px 200px}
+@keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+.villi path{stroke-dasharray:240;stroke-dashoffset:240;animation:draw 3.2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.cv-title{position:relative;text-align:center;margin-top:4px}
+.cv-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#E9A27C}
+.cv-word{font-family:var(--serif);font-weight:900;font-size:clamp(64px,20vw,112px);line-height:.9;letter-spacing:.04em;margin:6px 0 2px;background:linear-gradient(180deg,#FFE7D2 0%,#F0A77E 55%,#B4532A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 24px rgba(180,83,42,.35))}
+.cv-letters{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px auto 0;max-width:520px}
+.cv-letters span{font-size:11.5px;padding:4px 9px;border-radius:999px;border:1px solid rgba(233,162,124,.35);color:#F3D5BF;background:rgba(255,255,255,.04)}
+.cv-letters span b{color:#F0A77E;font-family:var(--serif);font-weight:900;margin-right:3px}
+.cv-sub{font-family:var(--serif);font-weight:300;font-style:italic;font-size:19px;color:#F1DCCB;margin:14px auto 0;max-width:470px;text-align:center;line-height:1.35}
+.cv-news{position:relative;width:100%;max-width:520px;margin:18px auto 0;border:1px solid rgba(233,162,124,.25);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));padding:12px 14px}
+.cv-news h4{margin:0 0 6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#E9A27C;font-weight:600}
+.cv-news ul{margin:0;padding-left:16px;font-size:12.8px;color:#EBD6C5}
+.cv-news li{margin:3px 0}
+.cv-btns{position:relative;display:flex;flex-direction:column;gap:10px;width:100%;max-width:520px;margin-top:18px}
+.btn-hero{border:0;border-radius:16px;padding:16px 18px;font-size:16px;font-weight:700;color:#2A120A;background:linear-gradient(135deg,#FFD7BC,#E9925F 60%,#C8622F);box-shadow:0 10px 30px rgba(200,98,47,.35),inset 0 1px 0 rgba(255,255,255,.5);display:flex;justify-content:space-between;align-items:center}
+.btn-ghost{border:1px solid rgba(233,162,124,.4);background:rgba(255,255,255,.04);color:#F3D5BF;border-radius:14px;padding:13px 16px;font-size:14.5px;font-weight:600;display:flex;justify-content:space-between}
+.cv-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cv-sign{position:relative;margin-top:22px;text-align:center;font-size:12px;color:#CDB3A0;max-width:520px;line-height:1.5}
+.cv-sign b{color:#F3D5BF;font-weight:600}
+.cv-sign .mono{font-size:10.5px;letter-spacing:.12em;color:#A88A75;display:block;margin-top:8px}
+
+/* ============ APP ============ */
+header.app{position:sticky;top:0;z-index:20;background:rgba(247,240,230,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:calc(var(--safeT) + 8px) 12px 0}
+.hrow{display:flex;align-items:center;gap:10px;max-width:760px;margin:0 auto}
+.logo{width:34px;height:34px;border-radius:10px;background:radial-gradient(circle at 50% 40%,#E9925F,#8C3B1C);display:grid;place-items:center;color:#FFF3E8;font-family:var(--serif);font-weight:900;font-size:18px;flex:none;border:0}
+.htitle{flex:1;min-width:0}
+.htitle h1{font-size:18px;line-height:1.1}
+.htitle small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.icon-btn{border:1px solid var(--line);background:var(--paper);border-radius:10px;padding:7px 10px;font-size:12.5px;color:var(--ink2);font-weight:600}
+nav.steps{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 10px;max-width:760px;margin:0 auto;scrollbar-width:none}
+nav.steps::-webkit-scrollbar{display:none}
+nav.steps button{flex:none;border:1px solid var(--line);background:var(--paper);color:var(--ink2);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:600;white-space:nowrap}
+nav.steps button .n{font-family:var(--mono);font-size:10.5px;color:var(--terra);margin-right:4px}
+nav.steps button.on{background:var(--ink);color:#FFF3E8;border-color:var(--ink)}
+nav.steps button.on .n{color:var(--terra-l)}
+main{max-width:760px;margin:0 auto;padding:14px 14px calc(var(--safeB) + 96px)}
+section.view{display:none;animation:fade .25s ease}
+section.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.vh{margin:4px 0 12px}
+.vh .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--terra)}
+.vh h2{font-size:25px;line-height:1.15;margin-top:2px}
+.vh p{margin:6px 0 0;color:var(--ink2);font-size:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin:10px 0;box-shadow:0 1px 0 rgba(42,26,18,.03)}
+.card h3{font-size:17px;margin-bottom:6px}
+.grp{margin:12px 0 4px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:10px 11px;border:1px solid var(--line);border-radius:12px;background:#fff;margin:6px 0;font-size:14px;line-height:1.35;cursor:pointer;user-select:none;transition:border-color .15s,background .15s}
+.chk input{display:none}
+.chk .box{flex:none;width:20px;height:20px;border-radius:6px;border:1.6px solid #C7B29C;display:grid;place-items:center;margin-top:1px;background:#fff}
+.chk.on{border-color:var(--terra);background:#FDF1E8}
+.chk.on .box{background:var(--terra);border-color:var(--terra)}
+.chk.on .box::after{content:"";width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.chk.neg.on{border-color:var(--teal);background:#EAF4F2}
+.chk.neg.on .box{background:var(--teal);border-color:var(--teal)}
+.chk small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:999px;background:var(--sand);color:var(--ink2);margin-right:4px;vertical-align:1px}
+.note{border-left:3px solid var(--terra);background:#FBEDE3;padding:10px 12px;border-radius:0 12px 12px 0;font-size:13.5px;color:var(--ink2);margin:10px 0}
+.note.teal{border-color:var(--teal);background:#E8F2F0}
+.note.red{border-color:var(--red);background:#FBE7E4}
+.note.gold{border-color:var(--gold);background:#FBF1DE}
+.note b{color:var(--ink)}
+.bar{height:8px;border-radius:99px;background:#F0E4D6;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;border-radius:99px}
+.ddx{border:1px solid var(--line);border-radius:16px;background:#fff;margin:10px 0;overflow:hidden}
+.ddx-h{display:flex;align-items:center;gap:10px;padding:12px 13px;cursor:pointer}
+.ddx-tag{flex:none;min-width:52px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:600;color:#fff;border-radius:9px;padding:5px 6px}
+.ddx-t{flex:1;min-width:0}
+.ddx-t b{font-family:var(--serif);font-size:16px;display:block;line-height:1.2}
+.ddx-t span{font-size:12px;color:var(--mute)}
+.ddx-s{font-family:var(--mono);font-size:12px;color:var(--ink2);text-align:right}
+.ddx-b{padding:0 13px 13px;font-size:13.5px;display:none}
+.ddx.open .ddx-b{display:block}
+.ddx-b ul{margin:4px 0;padding-left:18px}
+.lvl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:2px 7px;border-radius:6px}
+.lvl.a{background:#F7D9CC;color:var(--red)}.lvl.m{background:#F6E6C6;color:#7A5410}.lvl.b{background:#E6EADB;color:var(--olive)}.lvl.x{background:#E5E5E5;color:#666}
+.seq{position:relative;padding-left:22px;margin:8px 0}
+.seq::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--sand)}
+.st{position:relative;margin:10px 0}
+.st::before{content:"";position:absolute;left:-19px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2.5px solid var(--terra)}
+.st .lv{font-family:var(--mono);font-size:10.5px;color:var(--terra);font-weight:600;letter-spacing:.08em}
+.st b{display:block;font-size:14px}
+.st div{font-size:13px;color:var(--ink2)}
+.st em{font-style:normal;font-family:var(--mono);font-size:11px;background:#F4EADF;border-radius:6px;padding:1px 6px;color:var(--terra-d)}
+label.f{display:block;font-size:12.5px;font-weight:600;color:var(--ink2);margin:10px 0 4px}
+select,input[type=number]{width:100%;font:inherit;font-size:15px;padding:10px 11px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);-webkit-appearance:none;appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--mute) 50%),linear-gradient(135deg,var(--mute) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.out{margin-top:12px;border-radius:14px;padding:13px;background:var(--night);color:#F7EADB}
+.out h4{margin:0 0 4px;font-family:var(--serif);font-size:18px;color:#FFD9C0}
+.out p,.out li{font-size:13.5px;color:#EBD6C5}
+.out ul{margin:6px 0 0;padding-left:18px}
+.out .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#E9A27C}
+table.dose{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+table.dose th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);padding:6px 4px;border-bottom:1px solid var(--line)}
+table.dose td{padding:8px 4px;border-bottom:1px dashed var(--line);vertical-align:top}
+table.dose td.v{font-family:var(--mono);font-weight:600;color:var(--terra-d);white-space:nowrap}
+.tabs2{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tabs2 button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;font-size:13px;font-weight:600;color:var(--ink2)}
+.tabs2 button.on{background:var(--terra);color:#fff;border-color:var(--terra)}
+.acc{border:1px solid var(--line);border-radius:14px;background:#fff;margin:8px 0;overflow:hidden}
+.acc>summary{list-style:none;padding:12px 13px;display:flex;align-items:center;gap:10px;cursor:pointer}
+.acc>summary::-webkit-details-marker{display:none}
+.acc>summary b{font-family:var(--serif);font-size:16px;flex:1}
+.acc>summary::after{content:"+";font-family:var(--mono);color:var(--terra);font-size:18px}
+.acc[open]>summary::after{content:"–"}
+.acc .in{padding:0 13px 13px;font-size:13.5px}
+.acc .in h5{margin:10px 0 3px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--terra)}
+.acc .in ul{margin:2px 0;padding-left:18px}
+.new{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;background:var(--terra);color:#fff;border-radius:5px;padding:1px 5px;margin-left:4px;vertical-align:2px}
+.footnav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,251,245,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(var(--safeB) + 10px)}
+.footnav .in{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.footnav button{flex:1;border-radius:13px;padding:12px;font-weight:700;font-size:14.5px}
+.b-prev{background:#fff;border:1px solid var(--line);color:var(--ink2)}
+.b-next{background:var(--ink);border:1px solid var(--ink);color:#FFF3E8}
+.counter{font-family:var(--mono);font-size:11px;color:var(--mute);min-width:64px;text-align:center}
+.case{border:1px solid var(--line);border-radius:16px;background:#fff;padding:13px;margin:10px 0}
+.case h4{margin:0 0 4px;font-family:var(--serif);font-size:16.5px}
+.case p{margin:4px 0;font-size:13.5px;color:var(--ink2)}
+.case .row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.btn-s{border:1px solid var(--terra);background:#fff;color:var(--terra-d);border-radius:10px;padding:8px 11px;font-size:13px;font-weight:700}
+.btn-s.fill{background:var(--terra);color:#fff}
+.reveal{display:none;margin-top:8px;font-size:13.5px;border-top:1px dashed var(--line);padding-top:8px}
+.reveal.on{display:block}
+.refs li{font-size:12.8px;margin:6px 0;color:var(--ink2)}
+.chipsum{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chipsum span{font-size:11.5px;background:#F4EADF;border-radius:999px;padding:3px 8px;color:var(--ink2)}
+.kpi{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.kpi div{flex:1;min-width:90px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.kpi small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.kpi b{font-family:var(--mono);font-size:15px}
+.tletters{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:6px 0 4px}
+.tl{border:1px solid var(--line);background:#fff;border-radius:14px;padding:8px 0 6px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.tl b{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1;color:var(--terra)}
+.tl span{font-family:var(--mono);font-size:9.5px;color:var(--mute)}
+.tl.on{background:var(--night);border-color:var(--night)}.tl.on b{color:#F0A77E}.tl.on span{color:#D9B79E}
+.bigL{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;font-family:var(--serif);font-weight:900;font-size:24px}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:4px 0}
+.chain .ch{font-size:12px;background:#F4EADF;border:1px solid var(--line);border-radius:9px;padding:4px 8px;color:var(--ink)}
+.chain .ar{color:var(--terra);font-weight:700;font-size:13px}
+.flow{position:relative;margin:6px 0}
+.fl{display:flex;gap:10px;position:relative;padding-bottom:10px;animation:fade .3s ease}
+.fl:not(:last-child)::after{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--sand)}
+.fl-i{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;z-index:1}
+.fl-b{flex:1;border-left:3px solid;background:#FFFBF5;border-radius:0 12px 12px 0;padding:8px 10px;font-size:13.3px;color:var(--ink2)}
+.fl-k{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.fl-b b{color:var(--ink)}
+@media (min-width:700px){.g2c{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}}
+</style>
+</head>
+<body>
+
+<!-- ======================= CARÁTULA ======================= -->
+<div id="cover" role="dialog" aria-label="Carátula">
+  <div class="cv-top"><span><b>CDSS</b> · Neonatología</span><span>v1.1 · nov 2026</span></div>
+
+  <div class="cv-art" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <defs>
+        <radialGradient id="gCore" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="#FFD7BC"/><stop offset="40%" stop-color="#E9925F"/><stop offset="100%" stop-color="#6B2A12"/>
+        </radialGradient>
+        <radialGradient id="gHalo" cx="50%" cy="50%" r="50%">
+          <stop offset="55%" stop-color="#E9925F" stop-opacity=".22"/><stop offset="100%" stop-color="#E9925F" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="200" cy="200" r="190" fill="url(#gHalo)"/>
+      <!-- barrera placentaria -->
+      <circle cx="200" cy="200" r="150" fill="none" stroke="#E9A27C" stroke-opacity=".18" stroke-width="1"/>
+      <circle cx="200" cy="200" r="118" fill="none" stroke="#E9A27C" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 6"/>
+      <circle cx="200" cy="200" r="180" fill="none" stroke="#E9A27C" stroke-opacity=".12" stroke-width="1" stroke-dasharray="1 9"/>
+      <!-- vellosidades coriales -->
+      <g class="villi" fill="none" stroke="#F3C9A9" stroke-opacity=".55" stroke-width="1.3" stroke-linecap="round">
+        <path d="M200 200 C 200 170, 185 150, 170 128 M185 150 C 175 145, 165 146, 152 140 M170 128 C 168 118, 160 110, 150 104"/>
+        <path d="M200 200 C 225 180, 245 170, 268 150 M245 170 C 252 160, 262 156, 276 158 M268 150 C 274 140, 280 132, 292 128"/>
+        <path d="M200 200 C 228 214, 248 232, 266 258 M248 232 C 258 236, 270 236, 282 242 M266 258 C 268 268, 274 278, 284 286"/>
+        <path d="M200 200 C 180 222, 160 236, 136 252 M160 236 C 152 246, 142 252, 128 252 M136 252 C 128 262, 120 270, 108 276"/>
+        <path d="M200 200 C 176 196, 152 190, 124 180 M152 190 C 146 200, 136 206, 122 208"/>
+        <path d="M200 200 C 206 226, 206 250, 202 278 M206 250 C 214 258, 222 266, 236 270"/>
+      </g>
+      <!-- núcleo fetal -->
+      <g class="pulse">
+        <circle cx="200" cy="200" r="46" fill="url(#gCore)" filter="url(#glow)"/>
+        <circle cx="194" cy="186" r="11" fill="#5A220F" fill-opacity=".6"/>
+        <path d="M203 192 C 218 198, 222 216, 210 226 C 200 234, 184 230, 180 218 C 177 209, 182 201, 188 198" fill="none" stroke="#5A220F" stroke-opacity=".6" stroke-width="12" stroke-linecap="round"/>
+        <path d="M200 200 C 206 208, 204 214, 198 216" fill="none" stroke="#FFD7BC" stroke-opacity=".35" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+      <!-- órbita TORCH -->
+      <g class="orbit">
+        <g transform="translate(200 82)"><circle r="17" fill="#2A120A" stroke="#F0A77E" stroke-width="1.5"/><text class="node-lbl" y="6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="900" font-size="18" fill="#FFD9C0">T</text></g>
+        <g transform="translate(312 164)"><circle r="17" fill="#2A120A" stroke="#F0A77E" stroke-width="1.5"/><text class="node-lbl" y="6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="900" font-size="18" fill="#FFD9C0">O</text></g>
+        <g transform="translate(270 296)"><circle r="17" fill="#2A120A" stroke="#F0A77E" stroke-width="1.5"/><text class="node-lbl" y="6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="900" font-size="18" fill="#FFD9C0">R</text></g>
+        <g transform="translate(130 296)"><circle r="17" fill="#2A120A" stroke="#F0A77E" stroke-width="1.5"/><text class="node-lbl" y="6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="900" font-size="18" fill="#FFD9C0">C</text></g>
+        <g transform="translate(88 164)"><circle r="17" fill="#2A120A" stroke="#F0A77E" stroke-width="1.5"/><text class="node-lbl" y="6" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="900" font-size="18" fill="#FFD9C0">H</text></g>
+      </g>
+      <!-- órbita externa: emergentes -->
+      <g class="orbit2" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#E9A27C" fill-opacity=".85">
+        <g transform="translate(200 18)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">SÍFILIS</text></g>
+        <g transform="translate(355 112)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">ZIKA</text></g>
+        <g transform="translate(372 250)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">OROV</text></g>
+        <g transform="translate(282 362)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">CHAGAS</text></g>
+        <g transform="translate(120 364)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">B19</text></g>
+        <g transform="translate(26 254)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">VZV</text></g>
+        <g transform="translate(40 110)"><circle r="3" fill="#E9A27C"/><text class="node-lbl" x="7" y="3">VIH·VHB·VHC</text></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="cv-title">
+    <div class="cv-kicker">Clinical Decision Support System</div>
+    <div class="cv-word">TORCH</div>
+    <div class="cv-letters">
+      <span><b>T</b>oxoplasma</span><span><b>O</b>tros</span><span><b>R</b>ubéola</span><span><b>C</b>itomegalovirus</span><span><b>H</b>erpes</span>
+    </div>
+    <p class="cv-sub">Del fenotipo al patógeno: diagnóstico secuencial, interpretación y tratamiento de las infecciones congénitas y perinatales.</p>
+  </div>
+
+  <div class="cv-news">
+    <h4>Actualizado con la evidencia 2023–2026</h4>
+    <ul>
+      <li>CMV: informe clínico AAP (Pediatrics, oct 2026) — tamizaje auditivo + ampliado, nueva terminología, valganciclovir en hipoacusia aislada.</li>
+      <li>Sífilis: escasez mundial de penicilina benzatínica (retiro de lotes jul 2025) — priorizar embarazadas y RN.</li>
+      <li>Oropouche: transmisión vertical confirmada; Panamá con brote 2025 (Darién, Panamá Este).</li>
+      <li>Parvovirus B19: repunte 2024 con hidrops y transfusiones fetales.</li>
+      <li>VHC perinatal: ARN-VHC a los 2–6 meses (CDC 2023).</li>
+    </ul>
+  </div>
+
+  <div class="cv-btns">
+    <button class="btn-hero" onclick="enter(0)"><span>Comenzar evaluación</span><span>→</span></button>
+    <div class="cv-row">
+      <button class="btn-ghost" onclick="enter(7)"><span>Biblioteca</span><span>▤</span></button>
+      <button class="btn-ghost" onclick="enter(8)"><span>Casos TORCH</span><span>✚</span></button>
+    </div>
+  </div>
+
+  <div class="cv-sign">
+    <b>Dr. Jano Jaramillo — Médico Pediatra y Neonatólogo · Posgrado en Trastornos del Aprendizaje</b><br>
+    Sala de Neonatología · Hospital Dr. Cecilio Castillero · Chitré, Herrera, Panamá
+    <span class="mono">Herramienta de apoyo · no sustituye el juicio clínico · verifique dosis</span>
+  </div>
+</div>
+
+<!-- ======================= APP ======================= -->
+<header class="app">
+  <div class="hrow">
+    <button class="logo" onclick="showCover()" aria-label="Volver a la carátula">T</button>
+    <div class="htitle"><h1>CDSS TORCH Neonatal</h1><small id="hsub">Infecciones congénitas y perinatales</small></div>
+    <button class="icon-btn" onclick="resetAll()">Reiniciar</button>
+  </div>
+  <nav class="steps" id="steps"></nav>
+</header>
+
+<main>
+<!-- 0 MADRE -->
+<section class="view" id="v0">
+  <div class="vh"><div class="eyebrow">Paso 1 · Contexto materno</div><h2>¿Qué sabemos del embarazo?</h2>
+  <p>Marque lo que conste en la historia. Los datos en <span style="color:var(--teal);font-weight:600">verde azulado</span> restan plausibilidad (evidencia en contra).</p></div>
+  <div id="maternal"></div>
+</section>
+
+<!-- 1 RN -->
+<section class="view" id="v1">
+  <div class="vh"><div class="eyebrow">Paso 2 · Fenotipo del recién nacido</div><h2>Hallazgos clínicos, de imagen y laboratorio</h2>
+  <p>El patrón —no un hallazgo aislado— orienta hacia el patógeno. Marque todo lo presente.</p></div>
+  <div id="neonatal" class="g2c"></div>
+</section>
+
+<!-- 2 DIFERENCIAL -->
+<section class="view" id="v2">
+  <div class="vh"><div class="eyebrow">Paso 3 · Diagnóstico diferencial pluralista</div><h2>Hipótesis en competencia</h2>
+  <p>Cada hipótesis muestra lo que la apoya, lo que la contradice y la pregunta que la discrimina. No hay un ganador por defecto.</p></div>
+  <div id="ddxSummary"></div>
+  <div id="ddx"></div>
+</section>
+
+<!-- 3 PRUEBAS -->
+<section class="view" id="v3">
+  <div class="vh"><div class="eyebrow">Paso 4 · Pruebas secuenciales</div><h2>Qué pedir, en qué orden y cuándo</h2>
+  <p>La secuencia se arma según sus hipótesis. Sífilis y CMV (antes de los 21 días) se descartan siempre ante un fenotipo compatible.</p></div>
+  <div class="card">
+    <h3>Principios que no se negocian</h3>
+    <ul style="margin:4px 0;padding-left:18px;font-size:13.5px">
+      <li><b>No pida un “perfil TORCH” serológico indiscriminado.</b> Tiene bajo rendimiento, la IgG del RN es materna y una IgM aislada da falsos positivos y negativos. Pida pruebas dirigidas al patrón.</li>
+      <li><b>CMV: la ventana es de 21 días.</b> Después, una PCR positiva no distingue infección congénita de posnatal (leche materna, transfusión). Recurra entonces a la gota seca del tamiz neonatal.</li>
+      <li><b>No use sangre de cordón</b> para RPR/VDRL ni para IgM de toxoplasma: se contamina con sangre materna.</li>
+      <li><b>Evaluación base para todo sospechoso:</b> hemograma con plaquetas, TGO/TGP y bilirrubina fraccionada, fondo de ojo por oftalmología, PEATC diagnóstico (no solo emisiones otoacústicas) e imagen cerebral (USG transfontanelar; RM si es anormal o dudosa).</li>
+      <li><b>Ningún RN egresa sin el resultado de la serología materna para sífilis</b> de al menos una vez en el embarazo, idealmente repetida al parto.</li>
+    </ul>
+  </div>
+  <div id="baseWork"></div>
+  <div id="seqTests"></div>
+  <div class="grp">Protocolos por exposición materna conocida</div>
+  <div id="exposure"></div>
+</section>
+
+<!-- 4 INTERPRETAR -->
+<section class="view" id="v4">
+  <div class="vh"><div class="eyebrow">Paso 5 · Interpretación de resultados</div><h2>Del resultado a la categoría</h2>
+  <p>Intérpretes interactivos para las cuatro decisiones de mayor peso.</p></div>
+  <div class="tabs2" id="itabs">
+    <button class="on" data-t="iSif">Sífilis</button><button data-t="iCmv">CMV</button><button data-t="iToxo">Toxoplasma</button><button data-t="iHsv">Herpes</button>
+  </div>
+
+  <div class="card itab" id="iSif">
+    <h3>Sífilis congénita · escenarios CDC</h3>
+    <p style="font-size:13px;color:var(--ink2);margin:0">Compare RPR/VDRL cuantitativo del RN (suero) con el materno al parto, mismo método y, de ser posible, mismo laboratorio.</p>
+    <label class="f">Examen físico del RN compatible con sífilis congénita, o campo oscuro/PCR de lesión positiva</label>
+    <select id="s_exam"><option value="0">No</option><option value="1">Sí</option></select>
+    <label class="f">Título no treponémico del RN respecto del materno</label>
+    <select id="s_titer"><option value="lt4">Menor de 4 veces (igual, 1 dilución arriba o abajo, o no reactivo)</option><option value="ge4">4 veces o más (≥ 2 diluciones por encima)</option></select>
+    <label class="f">Tratamiento materno</label>
+    <select id="s_mtx">
+      <option value="none">No tratada, no documentado o desconocido</option>
+      <option value="inad">Tratamiento no penicilínico, incompleto o iniciado &lt; 30 días antes del parto</option>
+      <option value="preg">Penicilina benzatínica adecuada al estadio, iniciada ≥ 30 días antes del parto</option>
+      <option value="before">Tratada adecuadamente ANTES del embarazo, títulos bajos y estables en todo el embarazo (VDRL ≤ 1:2 / RPR ≤ 1:4)</option>
+    </select>
+    <label class="f">¿Evidencia de reinfección o recaída materna (aumento ≥ 4 veces del título)?</label>
+    <select id="s_reinf"><option value="0">No</option><option value="1">Sí</option></select>
+    <div id="sifOut"></div>
+  </div>
+
+  <div class="card itab hidden" id="iCmv">
+    <h3>CMV congénito · categoría y conducta</h3>
+    <p style="font-size:13px;color:var(--ink2);margin:0">Terminología del informe clínico AAP 2026: enfermedad por CMVc, CMVc con hipoacusia neurosensorial aislada, infección por CMVc sin enfermedad.</p>
+    <label class="f">PCR de CMV (orina o saliva confirmada en orina)</label>
+    <select id="c_pcr"><option value="pos21">Positiva, tomada ≤ 21 días de vida</option><option value="dbs">Positiva en gota seca del tamiz neonatal (diagnóstico tardío)</option><option value="late">Positiva solo después de 21 días, sin gota seca</option><option value="neg">Negativa</option></select>
+    <div class="grp">Manifestaciones (marque las presentes)</div>
+    <div id="cmvItems"></div>
+    <div id="cmvOut"></div>
+  </div>
+
+  <div class="card itab hidden" id="iToxo">
+    <h3>Toxoplasmosis congénita · serología del RN</h3>
+    <div class="g2">
+      <div><label class="f">IgG del RN</label><select id="t_igg"><option value="pos">Positiva</option><option value="neg">Negativa</option></select></div>
+      <div><label class="f">IgM (ISAGA/ELISA)</label><select id="t_igm"><option value="na">No hecha</option><option value="pos">Positiva (≥ 5 días de vida)</option><option value="pos5">Positiva (&lt; 5 días)</option><option value="neg">Negativa</option></select></div>
+      <div><label class="f">IgA</label><select id="t_iga"><option value="na">No hecha</option><option value="pos">Positiva (≥ 10 días de vida)</option><option value="pos10">Positiva (&lt; 10 días)</option><option value="neg">Negativa</option></select></div>
+      <div><label class="f">PCR (sangre, orina, LCR)</label><select id="t_pcr"><option value="na">No hecha</option><option value="pos">Positiva</option><option value="neg">Negativa</option></select></div>
+    </div>
+    <label class="f">Clínica compatible (coriorretinitis, calcificaciones, hidrocefalia, LCR alterado)</label>
+    <select id="t_clin"><option value="0">No</option><option value="1">Sí</option></select>
+    <label class="f">Infección materna aguda documentada en el embarazo</label>
+    <select id="t_mat"><option value="1">Sí</option><option value="0">No / desconocida</option></select>
+    <label class="f">Evolución de la IgG en el seguimiento</label>
+    <select id="t_evo"><option value="na">Aún sin seguimiento</option><option value="neg12">Se negativizó antes de 12 meses (sin tratamiento)</option><option value="pers">Persiste positiva a los 12 meses</option></select>
+    <div id="toxoOut"></div>
+  </div>
+
+  <div class="card itab hidden" id="iHsv">
+    <h3>Herpes simple neonatal · forma clínica</h3>
+    <label class="f">PCR o hallazgo positivo en</label>
+    <div id="hsvItems"></div>
+    <div id="hsvOut"></div>
+  </div>
+</section>
+
+<!-- 5 TRATAMIENTO -->
+<section class="view" id="v5">
+  <div class="vh"><div class="eyebrow">Paso 6 · Tratamiento</div><h2>Dosis calculadas por peso</h2>
+  <p>Ingrese los datos del paciente. Verifique siempre contra el formulario institucional y con Infectología.</p></div>
+  <div class="card">
+    <div class="g3">
+      <div><label class="f">Peso (kg)</label><input type="number" id="w" step="0.01" min="0.3" max="8" value="3"></div>
+      <div><label class="f">Días de vida</label><input type="number" id="dol" step="1" min="0" max="120" value="2"></div>
+      <div><label class="f">EG al nacer (sem)</label><input type="number" id="ga" step="1" min="22" max="42" value="38"></div>
+    </div>
+    <div class="kpi" id="kpi"></div>
+  </div>
+  <div class="tabs2" id="ttabs"></div>
+  <div id="txOut"></div>
+</section>
+
+<!-- 6 SEGUIMIENTO -->
+<section class="view" id="v6">
+  <div class="vh"><div class="eyebrow">Paso 7 · Seguimiento</div><h2>Lo que pasa después del egreso</h2>
+  <p>Muchas secuelas —auditivas, oculares, del neurodesarrollo— aparecen tarde. El seguimiento es parte del tratamiento.</p></div>
+  <div id="fuOut"></div>
+</section>
+
+<!-- 7 BIBLIOTECA -->
+<section class="view" id="v7">
+  <div class="vh"><div class="eyebrow">Biblioteca</div><h2>Patógeno por patógeno</h2>
+  <p>Transmisión, clínica, diagnóstico, tratamiento y novedades.</p></div>
+  <div id="lib"></div>
+</section>
+
+<!-- 8 CASOS -->
+<section class="view" id="v8">
+  <div class="vh"><div class="eyebrow">Casos clínicos</div><h2>Ruta diagnóstica TORCH</h2>
+  <p>Cinco casos, uno por letra del acrónimo. Cada uno muestra el esquema diagnóstico y la secuencia de pruebas con sus resultados, decisión por decisión.</p></div>
+  <div id="tcases"></div>
+  <div class="vh" style="margin-top:22px"><div class="eyebrow">Casos de diferencial</div><h2>Para pensar en paralelo</h2>
+  <p>Lea, piense su diferencial y luego cargue el caso en el CDSS para contrastar.</p></div>
+  <div id="cases"></div>
+</section>
+
+<!-- 9 FUENTES -->
+<section class="view" id="v9">
+  <div class="vh"><div class="eyebrow">Fuentes</div><h2>Evidencia y guías utilizadas</h2></div>
+  <div class="card"><ol class="refs" id="refs"></ol></div>
+  <div class="note gold"><b>Contexto Panamá.</b> Sífilis congénita, rubéola, Zika, Oropouche, Chagas, VIH y hepatitis virales son eventos de vigilancia: notifique al Departamento de Epidemiología según la normativa vigente del MINSA. Las pruebas especializadas (PCR de arbovirus, Oropouche, Chagas, rubéola) se coordinan con el laboratorio de referencia nacional (Instituto Conmemorativo Gorgas). Las Américas fueron declaradas libres de transmisión endémica de rubéola en 2015; un caso sospechoso es una alerta de salud pública.</div>
+  <div class="note"><b>Aviso.</b> Herramienta de apoyo a la decisión clínica elaborada a partir de guías y literatura publicadas. No reemplaza el juicio clínico ni la consulta con Infectología Pediátrica. Las dosis deben verificarse antes de prescribir.</div>
+  <p style="text-align:center;font-size:12px;color:var(--mute);margin-top:18px">Dr. Jano Jaramillo — Médico Pediatra y Neonatólogo · Posgrado en Trastornos del Aprendizaje<br><span class="mono">CDSS TORCH Neonatal · v1.1 · noviembre 2026</span></p>
+</section>
+</main>
+
+<div class="footnav"><div class="in">
+  <button class="b-prev" id="bPrev" onclick="go(cur-1)">← Atrás</button>
+  <span class="counter" id="ctr">1 / 10</span>
+  <button class="b-next" id="bNext" onclick="go(cur+1)">Siguiente →</button>
+</div></div>
+
+<script>
+/* =========================================================
+   DATOS
+   ========================================================= */
+const STEPS=['Madre','RN','Diferencial','Pruebas','Interpretar','Tratamiento','Seguimiento','Biblioteca','Casos','Fuentes'];
+
+const P={
+ cmv:{n:'Citomegalovirus congénito',s:'CMV',c:'#B4532A',
+  key:'Calcificaciones periventriculares, microcefalia, petequias, hepatoesplenomegalia, trombocitopenia e hipoacusia neurosensorial. Es la infección congénita más frecuente (≈1 de cada 200 nacidos vivos).',
+  q:'¿La PCR de CMV en orina (o saliva confirmada en orina) tomada antes de los 21 días de vida es positiva?',
+  t:'PCR CMV en orina ≤ 21 días'},
+ toxo:{n:'Toxoplasmosis congénita',s:'TOXO',c:'#5E6B3A',
+  key:'Tríada clásica: coriorretinitis + hidrocefalia + calcificaciones difusas. Muchas veces asintomática al nacer; la coriorretinitis puede aparecer años después.',
+  q:'¿IgM (≥ 5 días de vida) o IgA (≥ 10 días) positivas en el RN, o PCR positiva en sangre, orina o LCR?',
+  t:'IgG/IgM/IgA del RN + PCR en LCR'},
+ sif:{n:'Sífilis congénita',s:'SÍF',c:'#A3271F',
+  key:'Rinitis serosanguinolenta, pénfigo palmoplantar, osteocondritis/periostitis con pseudoparálisis, hepatoesplenomegalia, hidrops. Hasta dos tercios son asintomáticos al nacer.',
+  q:'¿El título no treponémico del RN es ≥ 4 veces el materno, o el examen es compatible?',
+  t:'RPR/VDRL cuantitativo madre–RN'},
+ rub:{n:'Rubéola congénita',s:'RUB',c:'#7A3E8E',
+  key:'Catarata + cardiopatía (DAP, estenosis de ramas pulmonares) + sordera; “blueberry muffin”, retinopatía en sal y pimienta, bandas metafisarias radiolúcidas.',
+  q:'¿IgM de rubéola en suero o RT-PCR en hisopado faríngeo u orina positivas?',
+  t:'IgM + RT-PCR rubéola (notificación inmediata)'},
+ hsv:{n:'Herpes simple neonatal',s:'VHS',c:'#C8622F',
+  key:'Vesículas (ausentes en hasta 40 % de las formas SNC/diseminada), convulsiones, hepatitis fulminante, sepsis con cultivos negativos. Debuta típicamente entre los días 5 y 21.',
+  q:'¿PCR de VHS positiva en superficies mucosas, lesión, sangre o LCR?',
+  t:'PCR VHS de superficies + sangre + LCR, ALT'},
+ vzv:{n:'Varicela congénita / neonatal',s:'VZV',c:'#2F6F6A',
+  key:'Congénita (8–20 sem): cicatrices en dermatoma, hipoplasia de extremidad, lesiones oculares y cerebrales. Neonatal: varicela materna 5 días antes a 2 días después del parto.',
+  q:'¿Hubo varicela materna y cuándo? ¿PCR de VZV positiva en vesícula?',
+  t:'PCR VZV de lesión; historia materna'},
+ parvo:{n:'Parvovirus B19',s:'B19',c:'#C8922E',
+  key:'Hidrops fetal no inmune, anemia grave con reticulocitopenia, miocarditis; ocasionalmente trombocitopenia. Riesgo fetal mayor antes de las 20 semanas.',
+  q:'¿PCR de parvovirus B19 positiva en sangre del RN, con reticulocitos bajos?',
+  t:'PCR B19 en sangre + reticulocitos'},
+ zika:{n:'Zika congénito',s:'ZIKV',c:'#1F5D8C',
+  key:'Microcefalia grave con cráneo parcialmente colapsado y piel redundante, calcificaciones subcorticales, cicatrices maculares, artrogriposis, hipertonía precoz.',
+  q:'¿RT-PCR de Zika en suero/orina o IgM en suero (idealmente en los 2 primeros días) positivas?',
+  t:'RT-PCR Zika suero + orina, IgM suero'},
+ oro:{n:'Oropouche (transmisión vertical)',s:'OROV',c:'#3B6E2E',
+  key:'Arbovirus emergente (jején Culicoides). Desde 2024 se documentan óbitos y anomalías congénitas: microcefalia, artrogriposis, lesiones cerebrales con fenotipo parecido al Zika.',
+  q:'¿Fiebre materna en zona de transmisión y RT-PCR/IgM de Oropouche positiva en madre o RN?',
+  t:'RT-PCR / IgM OROV (lab. de referencia)'},
+ chagas:{n:'Chagas congénito',s:'T.CRUZI',c:'#6B4A2E',
+  key:'La mayoría asintomáticos. Hepatoesplenomegalia, prematuridad, bajo peso, hidrops, miocarditis, meningoencefalitis. Panamá es zona endémica.',
+  q:'¿Microhematocrito o PCR de T. cruzi positivos al nacer o al mes; serología positiva a los 8–10 meses?',
+  t:'Microhematocrito/PCR al nacer y al mes'},
+ lcmv:{n:'Coriomeningitis linfocitaria (LCMV)',s:'LCMV',c:'#4F5B66',
+  key:'Imita toxoplasma y CMV: macrocefalia/hidrocefalia, coriorretinitis, calcificaciones periventriculares. Exposición a roedores. Se olvida con frecuencia.',
+  q:'¿Exposición materna a roedores y serología/PCR de LCMV positiva?',
+  t:'IgM/IgG LCMV (lab. de referencia)'},
+ entero:{n:'Enterovirus / parechovirus',s:'EV/HPeV',c:'#8C3B1C',
+  key:'Cuadro séptico con cultivos negativos, miocarditis, hepatitis con coagulopatía, meningoencefalitis (leucomalacia en parechovirus). Antecedente de fiebre materna periparto.',
+  q:'¿PCR de enterovirus/parechovirus positiva en LCR, sangre o hisopado?',
+  t:'PCR EV/HPeV en LCR y sangre'},
+ mimic:{n:'Imitadores no infecciosos (pseudo-TORCH)',s:'NO-INF',c:'#555',
+  key:'Interferonopatías (Aicardi-Goutières, USP18, ISG15), pseudo-TORCH por OCLN (calcificación en banda + polimicrogiria), COL4A1/2, hemocromatosis neonatal (GALD), HLH, leucemia congénita/TAM, isoinmunización, peroxisomopatías.',
+  q:'¿Estudio infeccioso negativo con calcificaciones, consanguinidad o recurrencia familiar?',
+  t:'RM + firma de interferón + exoma trío'}
+};
+const KEYS=Object.keys(P);
+
+const MAT=[
+ {g:'Toxoplasma y CMV'},
+ {id:'m_toxo',l:'Toxoplasmosis aguda en el embarazo (seroconversión o IgM+ con avidez baja)',w:{toxo:6}},
+ {id:'m_gato',l:'Contacto con heces de gato, carne cruda/poco cocida, agua no tratada',w:{toxo:1}},
+ {id:'m_toxoneg',l:'IgG materna para toxoplasma NEGATIVA al término',neg:1,w:{toxo:-6}},
+ {id:'m_cmv',l:'Primoinfección materna por CMV (seroconversión o IgM+ con avidez baja)',w:{cmv:6}},
+ {id:'m_ninos',l:'Madre con hijo pequeño en guardería o que trabaja con niños',w:{cmv:1}},
+ {g:'Sífilis, rubéola y herpes'},
+ {id:'m_sif',l:'Serología materna reactiva para sífilis (no treponémica + treponémica)',w:{sif:7}},
+ {id:'m_sifnt',l:'Sin tamizaje de sífilis en 3.er trimestre o al parto',w:{sif:2}},
+ {id:'m_sifneg',l:'RPR/VDRL materno NO reactivo en 3.er trimestre y al parto',neg:1,w:{sif:-6}},
+ {id:'m_rub',l:'Exantema febril en el embarazo o madre no vacunada contra rubéola',w:{rub:4,parvo:1,zika:1}},
+ {id:'m_rubvac',l:'Inmunidad materna a rubéola documentada antes del embarazo',neg:1,w:{rub:-4}},
+ {id:'m_hsv',l:'Lesiones genitales herpéticas al parto o herpes genital (madre o pareja)',w:{hsv:6}},
+ {id:'m_rpm',l:'RPM prolongada, electrodo en cuero cabelludo o parto instrumentado',w:{hsv:1}},
+ {g:'Varicela y parvovirus'},
+ {id:'m_vzv_early',l:'Varicela materna entre las 8 y 20 semanas',w:{vzv:5}},
+ {id:'m_vzv_peri',l:'Varicela materna 5 días antes a 2 días después del parto',w:{vzv:7}},
+ {id:'m_parvo',l:'Eritema infeccioso materno, contacto con B19, o anemia/hidrops fetal prenatal',w:{parvo:5}},
+ {g:'Arbovirus, Chagas y otros'},
+ {id:'m_zika',l:'Fiebre, exantema o conjuntivitis en el embarazo en zona con Zika',w:{zika:5,oro:1}},
+ {id:'m_oro',l:'Fiebre con cefalea intensa y mialgias en zona de transmisión de Oropouche (p. ej., Darién, Panamá Este)',w:{oro:6,zika:1}},
+ {id:'m_chagas',l:'Procedencia rural endémica de Chagas, vivienda con chinches, o serología T. cruzi materna positiva',w:{chagas:6}},
+ {id:'m_roed',l:'Exposición a roedores (ratones, hámsteres) en el embarazo',w:{lcmv:5}},
+ {id:'m_fiebre',l:'Enfermedad febril materna en la semana previa al parto (diarrea, faringitis, pleurodinia)',w:{entero:4,hsv:1}},
+ {id:'m_consang',l:'Consanguinidad, o hermano previo con fenotipo similar / calcificaciones',w:{mimic:6}},
+ {id:'m_npc',l:'Control prenatal ausente o insuficiente',w:{sif:1,toxo:0.5,cmv:0.5,rub:0.5}},
+ {g:'Exposiciones que activan protocolos (no se puntúan)'},
+ {id:'x_vih',l:'Madre con VIH (o estado desconocido con factores de riesgo)',w:{},x:1},
+ {id:'x_vhb',l:'Madre HBsAg positivo o desconocido',w:{},x:1},
+ {id:'x_vhc',l:'Madre con hepatitis C (anti-VHC o ARN positivo)',w:{},x:1}
+];
+
+const NEO=[
+ {g:'Crecimiento'},
+ {id:'f_rciu',l:'RCIU / pequeño para la edad gestacional',w:{cmv:2,toxo:1,rub:2,sif:1,zika:1,chagas:1,mimic:1}},
+ {id:'f_prema',l:'Prematuridad sin causa obstétrica clara',w:{sif:1,chagas:1,cmv:0.5}},
+ {id:'f_micro',l:'Microcefalia (PC < −2 DE)',w:{cmv:3,toxo:1,rub:1,zika:3,oro:3,lcmv:1,vzv:1,mimic:2,hsv:0.5}},
+ {id:'f_microsev',l:'Microcefalia grave (< −3 DE) con cráneo colapsado o piel redundante en cuero cabelludo',w:{zika:6,oro:5,cmv:1,mimic:1,toxo:-2}},
+ {id:'f_macro',l:'Macrocefalia / hidrocefalia',w:{toxo:5,lcmv:4,cmv:-1,zika:-2,oro:-1}},
+ {g:'Piel y mucosas'},
+ {id:'f_pete',l:'Petequias / púrpura',w:{cmv:3,rub:2,toxo:1,sif:1,entero:1,mimic:1,parvo:1}},
+ {id:'f_blue',l:'“Blueberry muffin” (hematopoyesis dérmica)',w:{rub:4,cmv:3,toxo:1,parvo:1,mimic:2}},
+ {id:'f_ves',l:'Vesículas, pústulas o costras',w:{hsv:6,vzv:5,sif:1}},
+ {id:'f_cica',l:'Cicatrices cutáneas en dermatoma / en zigzag',w:{vzv:7}},
+ {id:'f_rashsif',l:'Exantema maculopapular cobrizo, descamación o ampollas palmoplantares',w:{sif:6}},
+ {id:'f_rinitis',l:'Rinitis serosanguinolenta persistente (“coriza sifilítica”)',w:{sif:7}},
+ {id:'f_ict',l:'Ictericia precoz o colestasis (bilirrubina directa elevada)',w:{cmv:2,toxo:1,sif:2,rub:1,hsv:1,entero:1,parvo:1,chagas:1,mimic:1}},
+ {g:'Ojos y oídos'},
+ {id:'f_corio',l:'Coriorretinitis',w:{toxo:5,cmv:3,lcmv:4,zika:2,vzv:2,hsv:1,sif:1,rub:0.5}},
+ {id:'f_mac',l:'Cicatriz macular / atrofia coriorretiniana pigmentada',w:{zika:4,toxo:3,oro:2,lcmv:1}},
+ {id:'f_cat',l:'Catarata',w:{rub:7,vzv:2,hsv:1,mimic:1,cmv:-1,toxo:-1}},
+ {id:'f_glau',l:'Glaucoma congénito o microftalmia',w:{rub:4,toxo:1,vzv:2,cmv:0.5}},
+ {id:'f_conj',l:'Queratoconjuntivitis con secreción / vesículas perioculares',w:{hsv:4}},
+ {id:'f_audio',l:'Falla del tamiz auditivo (PEATC/ABR)',w:{cmv:4,rub:3,toxo:1,sif:1,zika:1}},
+ {g:'Corazón, abdomen y hueso'},
+ {id:'f_dap',l:'DAP o estenosis de ramas pulmonares',w:{rub:4}},
+ {id:'f_mioc',l:'Miocarditis / disfunción miocárdica',w:{entero:5,chagas:3,parvo:1,cmv:0.5}},
+ {id:'f_hem',l:'Hepatoesplenomegalia',w:{cmv:3,sif:3,toxo:2,rub:2,chagas:3,entero:1,hsv:1,parvo:1,mimic:1}},
+ {id:'f_hepat',l:'Hepatitis grave / transaminasas muy elevadas / falla hepática',w:{hsv:5,entero:4,cmv:1,mimic:2}},
+ {id:'f_calcabd',l:'Calcificaciones intraabdominales / intestino ecogénico prenatal',w:{cmv:4,toxo:1,parvo:1}},
+ {id:'f_ascitis',l:'Ascitis aislada',w:{sif:2,parvo:2,cmv:1,chagas:1,toxo:1}},
+ {id:'f_hidrops',l:'Hidrops no inmune',w:{parvo:6,sif:3,cmv:2,chagas:2,toxo:1}},
+ {id:'f_hueso',l:'Osteocondritis, periostitis o pseudoparálisis de Parrot',w:{sif:7,cmv:-1}},
+ {id:'f_celery',l:'Bandas radiolúcidas metafisarias (“tallo de apio”)',w:{rub:3,sif:2,cmv:1}},
+ {id:'f_limb',l:'Hipoplasia de extremidad',w:{vzv:7}},
+ {id:'f_artro',l:'Artrogriposis / contracturas congénitas',w:{zika:5,oro:4,mimic:1}},
+ {g:'Sistema nervioso central'},
+ {id:'f_calcpv',l:'Calcificaciones periventriculares',w:{cmv:6,lcmv:2,toxo:1,mimic:2}},
+ {id:'f_calcdif',l:'Calcificaciones difusas, parenquimatosas dispersas',w:{toxo:6,lcmv:3,cmv:-1,rub:1}},
+ {id:'f_calcsub',l:'Calcificaciones subcorticales (unión córtico-subcortical)',w:{zika:6,oro:4}},
+ {id:'f_calcband',l:'Calcificación cortical en banda, ganglios basales y polimicrogiria simétrica',w:{mimic:6,cmv:1}},
+ {id:'f_ventri',l:'Ventriculomegalia',w:{cmv:2,toxo:3,lcmv:3,zika:2,oro:2}},
+ {id:'f_quistes',l:'Quistes periventriculares / subependimarios',w:{cmv:3,rub:1,mimic:1}},
+ {id:'f_pmg',l:'Polimicrogiria / trastorno de la migración',w:{cmv:3,zika:3,oro:2,mimic:2}},
+ {id:'f_lsv',l:'Vasculopatía lenticuloestriada (hallazgo aislado, inespecífico)',w:{cmv:1,rub:1}},
+ {id:'f_conv',l:'Convulsiones',w:{hsv:3,entero:2,toxo:1,cmv:1,zika:1,mimic:1}},
+ {id:'f_hipert',l:'Hipertonía precoz, irritabilidad extrema, disfagia',w:{zika:3,oro:3,cmv:1}},
+ {id:'f_sepsis',l:'Cuadro séptico con cultivos negativos entre los días 3 y 21',w:{hsv:5,entero:5}},
+ {id:'f_lcr',l:'LCR con pleocitosis o proteínas muy elevadas (> 1 g/dL)',w:{toxo:3,hsv:2,sif:2,entero:2,cmv:1,lcmv:1}},
+ {g:'Laboratorio'},
+ {id:'f_plaq',l:'Trombocitopenia',w:{cmv:3,rub:2,toxo:1,sif:2,hsv:1,entero:1,parvo:1,mimic:1}},
+ {id:'f_anemia',l:'Anemia con reticulocitos bajos',w:{parvo:5,sif:2,cmv:1,chagas:1,toxo:1}},
+ {id:'f_coombs',l:'Coombs directo positivo / isoinmunización',w:{mimic:4,parvo:-2}},
+ {id:'f_ferr',l:'Ferritina muy elevada / falla hepática desde el nacimiento',w:{mimic:4,hsv:1,entero:1}},
+ {id:'f_negs',l:'Estudio infeccioso inicial negativo con fenotipo de calcificaciones',neg:1,w:{mimic:5,cmv:-2,toxo:-2}}
+];
+
+const ALL=[...MAT,...NEO].filter(x=>x.id);
+const BYID=Object.fromEntries(ALL.map(x=>[x.id,x]));
+
+/* Pruebas secuenciales por patógeno */
+const SEQ={
+ cmv:[
+  ['1','PCR de CMV en orina (estándar de oro) o en saliva','Orina por bolsa o algodón; saliva antes de la toma o ≥ 1 h después. Una saliva positiva se confirma con orina (la leche materna da falsos positivos).','≤ 21 días'],
+  ['2','Evaluación de enfermedad si es positiva','Hemograma y plaquetas, TGO/TGP, bilirrubinas, creatinina basal; USG transfontanelar (RM si anormal o dudosa); PEATC diagnóstico; fondo de ojo. Carga viral en sangre opcional: no define tratamiento. LCR no rutinario.','Primeras 1–2 semanas'],
+  ['3','Diagnóstico tardío','PCR de CMV en la gota seca del tamiz neonatal guardada. Positiva confirma infección congénita; negativa no la excluye (sensibilidad menor).','> 21 días']],
+ toxo:[
+  ['1','Serología materna completa','IgG, IgM y avidez de IgG (si no se hizo). IgG materna negativa al término prácticamente excluye la infección.','Al ingreso'],
+  ['2','Serología del RN en suero periférico (no cordón)','IgG, IgM (ISAGA o ELISA de captura) e IgA. La IgM es significativa después del día 5 y la IgA después del día 10; antes pueden ser por contaminación materna.','Primera semana'],
+  ['3','PCR y extensión','PCR de toxoplasma en sangre, orina y LCR; citoquímico del LCR (proteínas); USG o TC craneal; fondo de ojo por oftalmólogo; PEATC.','Antes de tratar'],
+  ['4','Seguimiento serológico','IgG cada 1–2 meses: si cae a negativo antes de 12 meses sin tratamiento, no hubo infección. IgG persistente a los 12 meses confirma. Western blot comparativo madre–hijo en laboratorio de referencia.','0–12 meses']],
+ sif:[
+  ['1','RPR/VDRL cuantitativo de madre y RN','Suero del RN (no sangre de cordón), mismo método y laboratorio. No se recomienda la prueba treponémica en el RN (anticuerpos maternos).','Al nacer'],
+  ['2','Examen físico dirigido y clasificación por escenario CDC','Use el intérprete del Paso 5.','Al nacer'],
+  ['3','Evaluación completa (escenarios 1 y 2)','LCR: VDRL, células y proteínas; hemograma con plaquetas; Rx de huesos largos. Según clínica: Rx de tórax, TGO/TGP, USG cerebral, fondo de ojo, PEATC. Campo oscuro/PCR de lesiones y estudio de la placenta si están disponibles.','Antes de tratar'],
+  ['4','Seguimiento serológico','RPR/VDRL cada 2–3 meses hasta no reactivo (debe caer a los 3 meses y negativizarse a los 6). Prueba treponémica solo a partir de los 18 meses.','0–18 meses']],
+ rub:[
+  ['1','IgM de rubéola y RT-PCR','IgM en suero; RT-PCR en hisopado faríngeo/nasofaríngeo y orina (también LCR o cristalino). Notificación inmediata; aislamiento de contacto.','Al sospechar'],
+  ['2','Daño de órganos','Ecocardiograma; oftalmología (catarata, glaucoma, retinopatía); PEATC; USG cerebral; hemograma; Rx de huesos largos.','Primera semana'],
+  ['3','Confirmación tardía y aislamiento','IgG persistente más allá de 6–12 meses confirma. Excreción viral hasta 1 año: aislamiento hasta el año o hasta 2 RT-PCR/cultivos negativos con 1 mes de diferencia después de los 3 meses de edad.','0–12 meses']],
+ hsv:[
+  ['1','Toma completa e inicio inmediato de aciclovir','PCR de superficies (conjuntiva, boca, nasofaringe, ano), PCR de vesículas, PCR de VHS en sangre, LCR (citoquímico + PCR) y ALT. No espere resultados para iniciar aciclovir IV.','Inmediato'],
+  ['2','Extensión','RM cerebral; EEG si hay compromiso SNC; oftalmología; hemograma y coagulación.','48–72 h'],
+  ['3','Control de fin de tratamiento','En forma SNC repita PCR de LCR al final: si sigue positiva, continúe 7 días y repita. Hemograma durante la supresión oral.','Día 21']],
+ vzv:[
+  ['1','Historia materna y PCR de lesión','PCR de VZV de vesícula/costra. Varicela materna 5 días antes a 2 días después del parto: inmunoglobulina específica (VariZIG) en ≤ 10 días (ideal ≤ 96 h).','Inmediato'],
+  ['2','Síndrome de varicela congénita','Oftalmología, neuroimagen, evaluación de extremidades y piel. IgG persistente después de los 7–12 meses apoya el diagnóstico.','Primera semana'],
+  ['3','Control de infección','Aislamiento aéreo y de contacto si hay varicela activa o exposición perinatal.','Hasta 21–28 días']],
+ parvo:[
+  ['1','PCR de B19 en sangre del RN','Con IgM; hemograma con reticulocitos; serología materna (IgM/IgG).','Al ingreso'],
+  ['2','Repercusión','Ecocardiograma (miocarditis, función), TGO/TGP, plaquetas; descartar isoinmunización (grupo, Coombs) y otras causas de hidrops.','Primeras 24–48 h']],
+ zika:[
+  ['1','RT-PCR e IgM de Zika','RT-PCR en suero y orina e IgM en suero, idealmente en los 2 primeros días de vida. LCR (RT-PCR e IgM) si las anteriores son negativas y se obtiene LCR. PRNT para confirmar IgM.','≤ 2 días'],
+  ['2','Fenotipo','USG cerebral (TC/RM si anormal), examen oftalmológico y PEATC antes del mes, evaluación neurológica y de deglución. Descarte CMV, toxoplasma y sífilis.','≤ 1 mes']],
+ oro:[
+  ['1','RT-PCR e IgM de Oropouche','RT-PCR en suero/sangre, LCR y orina; IgM de madre y RN. Coordinar con el laboratorio de referencia nacional.','Al sospechar'],
+  ['2','Fenotipo y diferencial','Neuroimagen, oftalmología, PEATC; descarte Zika, CMV, toxoplasma y sífilis. Notificación como evento inusual (posible transmisión vertical).','Primera semana']],
+ chagas:[
+  ['1','Parasitológico directo y/o PCR al nacer','Microhematocrito (Strout) o PCR de T. cruzi en sangre de cordón o periférica.','Al nacer'],
+  ['2','Repetir si fue negativo','La parasitemia es baja al nacer y alcanza su pico hacia el mes: repita microhematocrito/PCR a las 4–6 semanas.','4–6 semanas'],
+  ['3','Serología definitiva','Dos técnicas (ELISA + IFI/HAI) a los 8–10 meses, cuando ya desaparecieron los anticuerpos maternos. Positiva = infectado: tratar.','8–10 meses']],
+ lcmv:[
+  ['1','Serología de LCMV','IgM/IgG (IFI/ELISA) en suero del RN y de la madre; PCR en LCR si está disponible (laboratorio de referencia).','Al sospechar'],
+  ['2','Imagen','RM cerebral; oftalmología.','Primera semana']],
+ entero:[
+  ['1','PCR de enterovirus y parechovirus','En LCR, sangre e hisopado faríngeo/rectal.','Inmediato'],
+  ['2','Repercusión','Troponina y ecocardiograma; TGO/TGP, coagulación; RM si hay compromiso SNC (leucomalacia en parechovirus).','24–48 h']],
+ mimic:[
+  ['1','Asegurar que el estudio infeccioso sea completo','PCR de CMV en ≤ 21 días o gota seca, sífilis, toxoplasma; según contexto Zika/Oropouche/LCMV.','—'],
+  ['2','Estudio dirigido','RM cerebral; firma de interferón en sangre / IFN-α en LCR; exoma o genoma en trío; ferritina, transferrina, biopsia de mucosa oral (hemocromatosis); frotis y citometría (leucemia/TAM); Coombs y grupo; tamiz metabólico ampliado.','Según fenotipo']]
+};
+
+const EXPO={
+ x_vih:{t:'Exposición perinatal a VIH',b:`<ul>
+  <li>Antirretrovirales al RN en las primeras 6 h según riesgo: <b>bajo riesgo</b> (madre con carga viral suprimida y TAR) → zidovudina 2–4 semanas según guía; <b>alto riesgo</b> → terapia presuntiva (zidovudina + lamivudina + nevirapina o raltegravir).</li>
+  <li>PCR de ADN/ARN de VIH a los 14–21 días, 1–2 meses y 4–6 meses; en alto riesgo también al nacer.</li>
+  <li>En Panamá se indica alimentación con fórmula. Profilaxis con TMP-SMX desde las 4–6 semanas hasta descartar infección, según protocolo.</li>
+  <li>Descarte coinfecciones: sífilis, VHB, VHC, CMV (la infección materna por VIH es criterio de prueba de CMV en el RN).</li></ul>`},
+ x_vhb:{t:'Madre HBsAg positivo o desconocido',b:`<ul>
+  <li><b>HBsAg+:</b> vacuna contra hepatitis B + inmunoglobulina (IGHB 0.5 mL IM) en las primeras 12 h, en sitios distintos.</li>
+  <li><b>HBsAg desconocido:</b> vacuna en ≤ 12 h; si &lt; 2000 g agregue IGHB en ≤ 12 h; si ≥ 2000 g, IGHB si la madre resulta positiva (≤ 7 días).</li>
+  <li>En &lt; 2000 g la dosis al nacer no cuenta: complete 3 dosis adicionales.</li>
+  <li>HBsAg y anti-HBs a los 9–12 meses (1–2 meses después de la última dosis). La lactancia materna está permitida.</li></ul>`},
+ x_vhc:{t:'Exposición perinatal a hepatitis C',b:`<ul>
+  <li><b>ARN de VHC (NAT) a los 2–6 meses</b> (CDC 2023). Si es indetectable a partir de los 2 meses, no requiere más seguimiento salvo indicación clínica.</li>
+  <li>No probado antes: NAT entre 7 y 17 meses; desde los 18 meses, anti-VHC con NAT refleja.</li>
+  <li>ARN detectable: manejo con experto en hepatitis C pediátrica; antivirales de acción directa desde los 3 años.</li>
+  <li>La lactancia está permitida (suspender temporalmente si hay pezones agrietados y sangrantes).</li></ul>`}
+};
+
+/* =========================================================
+   ESTADO
+   ========================================================= */
+let S={sel:{},w:3,dol:2,ga:38};
+let cur=0;
+try{const raw=localStorage.getItem('torch_cdss_v1');if(raw){const o=JSON.parse(raw);if(o&&o.sel)S=Object.assign(S,o);}}catch(e){}
+function save(){try{localStorage.setItem('torch_cdss_v1',JSON.stringify(S));}catch(e){}}
+
+/* =========================================================
+   NAVEGACIÓN
+   ========================================================= */
+function buildNav(){
+  document.getElementById('steps').innerHTML=STEPS.map((s,i)=>`<button data-i="${i}" onclick="go(${i})"><span class="n">${i<7?i+1:'·'}</span>${s}</button>`).join('');
+}
+function go(i){
+  if(i<0||i>=STEPS.length)return;
+  cur=i;
+  document.querySelectorAll('section.view').forEach((v,k)=>v.classList.toggle('on',k===i));
+  document.querySelectorAll('nav.steps button').forEach((b,k)=>b.classList.toggle('on',k===i));
+  const b=document.querySelector(`nav.steps button[data-i="${i}"]`); if(b)b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+  document.getElementById('ctr').textContent=`${i+1} / ${STEPS.length}`;
+  document.getElementById('bPrev').disabled=i===0; document.getElementById('bPrev').style.opacity=i===0?.4:1;
+  document.getElementById('bNext').textContent=i===STEPS.length-1?'Carátula':'Siguiente →';
+  document.getElementById('bNext').onclick=i===STEPS.length-1?showCover:()=>go(cur+1);
+  if(i===2)renderDDx(); if(i===3)renderTests(); if(i===4){renderSif();renderCmv();renderToxo();renderHsv();} if(i===5)renderTx(); if(i===6)renderFU();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function enter(i){document.getElementById('cover').classList.add('hidden');go(i);}
+function showCover(){document.getElementById('cover').classList.remove('hidden');document.getElementById('cover').scrollTop=0;}
+
+/* =========================================================
+   LISTAS DE CHEQUEO
+   ========================================================= */
+function renderList(arr,el){
+  let h='';
+  arr.forEach(x=>{
+    if(x.g){h+=`<div class="grp" style="grid-column:1/-1">${x.g}</div>`;return;}
+    const on=S.sel[x.id]?' on':'';
+    h+=`<div class="chk${x.neg?' neg':''}${on}" data-id="${x.id}" onclick="tog('${x.id}',this)"><span class="box"></span><span>${x.l}${x.neg?'<small>Evidencia en contra</small>':''}${x.x?'<small>Activa protocolo en Paso 4</small>':''}</span></div>`;
+  });
+  document.getElementById(el).innerHTML=h;
+}
+function tog(id,el){S.sel[id]=!S.sel[id];if(!S.sel[id])delete S.sel[id];el.classList.toggle('on',!!S.sel[id]);save();}
+
+/* =========================================================
+   MOTOR DIFERENCIAL
+   ========================================================= */
+function score(){
+  const sc={},pro={},con={};
+  KEYS.forEach(k=>{sc[k]=0;pro[k]=[];con[k]=[];});
+  sc.cmv+=0.5; // prior: la infección congénita más frecuente
+  Object.keys(S.sel).forEach(id=>{
+    const it=BYID[id]; if(!it)return;
+    Object.entries(it.w).forEach(([k,v])=>{sc[k]+=v; if(v>0)pro[k].push(it.l); else if(v<0)con[k].push(it.l);});
+  });
+  return {sc,pro,con};
+}
+function lvl(v){return v>=8?['a','Alta']:v>=4?['m','Moderada']:v>0.6?['b','Baja']:['x','No sustentada'];}
+function ranked(){
+  const {sc,pro,con}=score();
+  return KEYS.map(k=>({k,v:Math.max(0,sc[k]),raw:sc[k],pro:pro[k],con:con[k]})).sort((a,b)=>b.raw-a.raw);
+}
+function renderDDx(){
+  const n=Object.keys(S.sel).filter(id=>!BYID[id]?.x).length;
+  const r=ranked();
+  const max=Math.max(8,...r.map(x=>x.v));
+  const pos=r.filter(x=>x.raw>=3);
+  let sum='';
+  if(n===0){sum=`<div class="note">Aún no hay hallazgos marcados. Vuelva a los pasos 1 y 2, o cargue un caso desde <b>Casos</b>. Recuerde: aun sin datos, ante un RN con fenotipo sospechoso <b>siempre</b> se estudian sífilis y CMV.</div>`;}
+  else{
+    const top=pos.slice(0,3).map(x=>P[x.k].s).join(' · ')||'—';
+    sum=`<div class="card"><div class="kpi"><div><small>Hallazgos</small><b>${n}</b></div><div><small>Hipótesis activas</small><b>${pos.length}</b></div><div><small>Encabezan</small><b style="font-size:13px">${top}</b></div></div>
+    <div class="chipsum">${Object.keys(S.sel).map(id=>`<span>${BYID[id].l.split('(')[0].trim()}</span>`).join('')}</div></div>`;
+    if(pos.length>=2&&pos[0].raw-pos[1].raw<2)sum+=`<div class="note gold"><b>Empate clínico.</b> Las dos primeras hipótesis están separadas por menos de 2 puntos: estúdielas en paralelo, no en secuencia.</div>`;
+    if(S.sel.f_negs||S.sel.m_consang)sum+=`<div class="note teal"><b>Piense fuera de la infección.</b> Consanguinidad, recurrencia o estudio infeccioso negativo con calcificaciones obligan a considerar imitadores genéticos (interferonopatías, OCLN, COL4A1).</div>`;
+  }
+  document.getElementById('ddxSummary').innerHTML=sum;
+  const show=n===0?r.filter(x=>['cmv','sif','toxo'].includes(x.k)):r;
+  document.getElementById('ddx').innerHTML=show.map((x,i)=>{
+    const [lc,lt]=lvl(x.v); const p=P[x.k];
+    const missing=x.pro.length===0?'<li>Ningún hallazgo marcado la apoya.</li>':'';
+    return `<div class="ddx${i===0&&n>0?' open':''}" onclick="this.classList.toggle('open')">
+      <div class="ddx-h"><span class="ddx-tag" style="background:${p.c}">${p.s}</span>
+        <div class="ddx-t"><b>${p.n}</b><span class="lvl ${lc}">${lt}</span></div>
+        <div class="ddx-s">${x.raw.toFixed(1)}</div></div>
+      <div style="padding:0 13px"><div class="bar"><i style="width:${Math.min(100,x.v/max*100)}%;background:${p.c}"></i></div></div>
+      <div class="ddx-b">
+        <p style="margin:8px 0 4px"><b>Patrón característico.</b> ${p.key}</p>
+        <div class="grp" style="margin-top:8px">A favor</div><ul>${x.pro.map(t=>`<li>${t}</li>`).join('')||missing}</ul>
+        ${x.con.length?`<div class="grp">En contra</div><ul>${x.con.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}
+        <div class="note teal" style="margin-top:8px"><b>Pregunta discriminante:</b> ${p.q}</div>
+        <div><span class="pill">1.ª prueba</span>${p.t}</div>
+      </div></div>`;
+  }).join('');
+}
+
+/* =========================================================
+   PRUEBAS SECUENCIALES
+   ========================================================= */
+function renderTests(){
+  const r=ranked();
+  let sel=r.filter(x=>x.raw>=3).map(x=>x.k);
+  ['sif','cmv'].forEach(k=>{if(!sel.includes(k))sel.push(k);});
+  sel=sel.slice(0,7);
+  const hasHSV=sel.includes('hsv')||S.sel.f_sepsis||S.sel.f_ves;
+  document.getElementById('baseWork').innerHTML=`<div class="card"><h3>Nivel 0 · Para todo RN con sospecha</h3>
+   <div class="seq">
+    <div class="st"><span class="lv">INMEDIATO</span><b>RPR/VDRL materno y del RN + PCR de CMV en orina</b><div>Los dos diagnósticos que nunca se omiten. CMV antes de los 21 días.</div></div>
+    <div class="st"><span class="lv">PRIMERAS 72 H</span><b>Hemograma con plaquetas · TGO/TGP · bilirrubina fraccionada</b><div>Trombocitopenia, colestasis y hepatitis orientan y gradúan la gravedad.</div></div>
+    <div class="st"><span class="lv">PRIMERA SEMANA</span><b>USG transfontanelar · fondo de ojo · PEATC diagnóstico</b><div>Calcificaciones (patrón), ventriculomegalia; coriorretinitis/catarata; hipoacusia neurosensorial.</div></div>
+    ${hasHSV?`<div class="st"><span class="lv" style="color:var(--red)">URGENTE</span><b>Si hay vesículas, convulsiones, hepatitis o sepsis con cultivos negativos: estudio VHS completo y aciclovir IV ya</b><div>La mortalidad de la forma diseminada no tratada supera el 80 %.</div></div>`:''}
+   </div></div>`;
+  document.getElementById('seqTests').innerHTML=sel.map(k=>{
+    const p=P[k];
+    return `<details class="acc" ${k===sel[0]?'open':''}><summary><span class="ddx-tag" style="background:${p.c}">${p.s}</span><b>${p.n}</b></summary><div class="in"><div class="seq">${
+      SEQ[k].map(s=>`<div class="st"><span class="lv">NIVEL ${s[0]}</span> <em>${s[3]}</em><b>${s[1]}</b><div>${s[2]}</div></div>`).join('')}</div></div></details>`;
+  }).join('');
+  const ex=Object.keys(EXPO).filter(k=>S.sel[k]);
+  document.getElementById('exposure').innerHTML=ex.length?ex.map(k=>`<div class="card"><h3>${EXPO[k].t}</h3><div style="font-size:13.5px">${EXPO[k].b}</div></div>`).join(''):
+   `<div class="note teal">No se marcaron exposiciones a VIH, VHB o VHC. Puede consultarlas igual:</div>`+Object.keys(EXPO).map(k=>`<details class="acc"><summary><b>${EXPO[k].t}</b></summary><div class="in">${EXPO[k].b}</div></details>`).join('');
+}
+
+/* =========================================================
+   INTÉRPRETES
+   ========================================================= */
+document.getElementById('itabs').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  document.querySelectorAll('#itabs button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.itab').forEach(x=>x.classList.toggle('hidden',x.id!==b.dataset.t));
+});
+['s_exam','s_titer','s_mtx','s_reinf'].forEach(id=>document.getElementById(id).addEventListener('change',renderSif));
+function renderSif(){
+  const ex=v('s_exam')==='1', t4=v('s_titer')==='ge4', m=v('s_mtx'), re=v('s_reinf')==='1';
+  let sc,title,eval_,tx,col;
+  if(ex||t4){sc=1;title='Escenario 1 · Sífilis congénita confirmada o muy probable';col='#A3271F';
+    eval_='LCR (VDRL, células, proteínas), hemograma con plaquetas, Rx de huesos largos y, según clínica: Rx de tórax, TGO/TGP, neuroimagen, fondo de ojo y PEATC.';
+    tx='Penicilina G cristalina acuosa 50 000 U/kg/dosis IV cada 12 h los primeros 7 días de vida y cada 8 h después, completando 10 días; o penicilina G procaínica 50 000 U/kg IM cada 24 h × 10 días. Si se pierde más de 1 día, reinicie el ciclo completo.';}
+  else if(m==='none'||m==='inad'||re){sc=2;title='Escenario 2 · Sífilis congénita posible';col='#C8622F';
+    eval_='Evaluación completa: LCR, hemograma con plaquetas y Rx de huesos largos.';
+    tx='Penicilina G cristalina IV × 10 días (preferida). Alternativa: penicilina G benzatínica 50 000 U/kg IM dosis única SOLO si la evaluación completa es normal y el seguimiento está asegurado. Con la escasez actual de benzatínica, el esquema IV de 10 días evita depender de ella.';}
+  else if(m==='preg'){sc=3;title='Escenario 3 · Sífilis congénita menos probable';col='#C8922E';
+    eval_='No se requiere evaluación adicional.';
+    tx='Penicilina G benzatínica 50 000 U/kg IM dosis única. Alternativa: sin tratamiento y con seguimiento serológico estrecho si la madre tuvo caída ≥ 4 veces del título tras tratar sífilis temprana, o títulos bajos y estables (VDRL ≤ 1:2 / RPR ≤ 1:4).';}
+  else {sc=4;title='Escenario 4 · Sífilis congénita improbable';col='#3E7A47';
+    eval_='No se requiere evaluación.';
+    tx='No se recomienda tratamiento. Puede considerarse penicilina G benzatínica 50 000 U/kg IM dosis única si el seguimiento no está garantizado y el título del RN es reactivo.';}
+  document.getElementById('sifOut').innerHTML=`<div class="out" style="border-top:4px solid ${col}"><div class="k">Resultado</div><h4>${title}</h4>
+   <p><b style="color:#FFD9C0">Evaluación:</b> ${eval_}</p><p><b style="color:#FFD9C0">Tratamiento:</b> ${tx}</p>
+   <p style="font-size:12px;opacity:.85">Interpretación del LCR neonatal: los valores normales varían con la edad gestacional; hasta 25 leucocitos/mm³ y 150 mg/dL de proteínas pueden verse en RN sanos, aunque 5 leucocitos y 40 mg/dL se usan como límites superiores conservadores. VDRL en LCR reactivo = neurosífilis.</p>
+   <p style="font-size:12px;opacity:.85">Notifique el caso. Trate a la madre y a su(s) pareja(s). Las dosis calculadas están en el Paso 6.</p></div>`;
+}
+
+const CMVI=[
+ ['ce_micro','Microcefalia','cns'],['ce_img','Neuroimagen anormal (calcificaciones, ventriculomegalia, quistes, polimicrogiria, alteración de sustancia blanca)','cns'],
+ ['ce_corio','Coriorretinitis','cns'],['ce_lcr','LCR anormal o PCR de CMV positiva en LCR','cns'],
+ ['ce_snhl','Hipoacusia neurosensorial confirmada por PEATC diagnóstico','snhl'],
+ ['ce_pete','Petequias / púrpura','sys'],['ce_plaq','Trombocitopenia','sys'],['ce_hem','Hepatoesplenomegalia','sys'],
+ ['ce_hep','Hepatitis (TGO/TGP elevadas) o colestasis','sys'],['ce_rciu','RCIU / PEG','sys'],['ce_grave','Enfermedad que amenaza la vida o compromiso grave de un órgano','sev']
+];
+document.getElementById('cmvItems').innerHTML=CMVI.map(x=>`<div class="chk" data-c="${x[2]}" id="${x[0]}" onclick="this.classList.toggle('on');renderCmv()"><span class="box"></span><span>${x[1]}</span></div>`).join('');
+document.getElementById('c_pcr').addEventListener('change',renderCmv);
+function renderCmv(){
+  const pcr=v('c_pcr');
+  const on=CMVI.filter(x=>document.getElementById(x[0]).classList.contains('on'));
+  const cns=on.filter(x=>x[2]==='cns').length, sys=on.filter(x=>x[2]==='sys').length, snhl=on.some(x=>x[2]==='snhl'), sev=on.some(x=>x[2]==='sev');
+  let h;
+  if(pcr==='neg'){h=`<h4>No hay infección congénita por CMV</h4><p>Una PCR en orina negativa antes de los 21 días excluye CMVc. Reconsidere otros patógenos o imitadores no infecciosos.</p>`;}
+  else if(pcr==='late'){h=`<h4>No se puede atribuir a infección congénita</h4><p>Después de los 21 días una PCR positiva puede reflejar infección posnatal (leche materna, transfusión). Busque la gota seca del tamiz neonatal; si es positiva, es congénita.</p>`;}
+  else{
+    let cat,tx;
+    if(cns>0||sev||sys>=2||(sys>=1&&snhl)){cat='Enfermedad por CMVc moderada a grave';
+      tx=`<b>Valganciclovir 16 mg/kg/dosis VO cada 12 h × 6 meses</b>, idealmente iniciado en el primer mes de vida (Kimberlin 2015). Si no tolera la vía oral o está críticamente enfermo: ganciclovir 6 mg/kg/dosis IV cada 12 h y pasar a VO al mejorar. Considerado en ≥ 32 semanas de edad gestacional y ≥ 1.8 kg; en prematuros más pequeños, decisión con Infectología.`;}
+    else if(snhl&&sys===0){cat='CMVc con hipoacusia neurosensorial aislada';
+      tx=`<b>Puede ofrecerse valganciclovir 6 semanas caso por caso</b>, tras consulta con Infectología Pediátrica (AAP 2026). La evidencia es aún limitada y discordante: estudios observacionales sugieren beneficio auditivo, y un ensayo controlado con 6 semanas no mostró diferencia. Decida con la familia.`;}
+    else if(sys===1){cat='Enfermedad por CMVc leve';
+      tx=`<b>No se recomienda tratamiento antiviral de rutina.</b> Un hallazgo aislado, leve y transitorio (p. ej., hepatoesplenomegalia leve o una alteración de laboratorio aislada) no justifica 6 meses de valganciclovir fuera de estudios. Discuta con Infectología; repita la evaluación si aparecen nuevos hallazgos.`;}
+    else{cat='Infección por CMVc sin enfermedad';
+      tx=`<b>Sin tratamiento antiviral.</b> Vigilancia auditiva estrecha: el riesgo de hipoacusia tardía o progresiva persiste durante años.`;}
+    h=`<h4>${cat}</h4><p>${tx}</p>${pcr==='dbs'?'<p style="font-size:12px;opacity:.85">Diagnóstico por gota seca: los beneficios del tratamiento iniciado después del primer mes son inciertos; discuta con Infectología.</p>':''}
+    <p><b style="color:#FFD9C0">Monitoreo del valganciclovir:</b> neutrófilos semanales por 6 semanas, a las 8 semanas y luego mensual; TGP mensual. Reduzca o suspenda si neutrófilos &lt; 500/mm³.</p>
+    <p style="font-size:12px;opacity:.85">Sin evaluación completa (PEATC, fondo de ojo, neuroimagen, laboratorio) la categoría es provisional.</p>`;
+  }
+  document.getElementById('cmvOut').innerHTML=`<div class="out"><div class="k">Categoría</div>${h}</div>`;
+}
+
+['t_igg','t_igm','t_iga','t_pcr','t_clin','t_mat','t_evo'].forEach(id=>document.getElementById(id).addEventListener('change',renderToxo));
+function renderToxo(){
+  const igg=v('t_igg'),igm=v('t_igm'),iga=v('t_iga'),pcr=v('t_pcr'),clin=v('t_clin')==='1',mat=v('t_mat')==='1',evo=v('t_evo');
+  let cat,txt,col='#5E6B3A';
+  if(evo==='pers'||pcr==='pos'||igm==='pos'||iga==='pos'){cat='Toxoplasmosis congénita CONFIRMADA';col='#A3271F';
+    txt='Tratar 12 meses con pirimetamina + sulfadiazina + ácido folínico (Paso 6). Prednisona si proteínas del LCR ≥ 1 g/dL o coriorretinitis activa que amenaza la mácula. Hemograma semanal (neutropenia).';}
+  else if(igg==='neg'&&evo!=='pers'){cat='Infección muy improbable';txt='IgG negativa en el RN prácticamente excluye la infección congénita (salvo infección materna muy tardía: repetir a las 2–4 semanas si la sospecha es alta).';col='#3E7A47';}
+  else if(evo==='neg12'){cat='Infección EXCLUIDA';txt='La negativización de la IgG antes de los 12 meses sin tratamiento indica que la IgG era materna.';col='#3E7A47';}
+  else if(clin&&mat){cat='Toxoplasmosis congénita PROBABLE';col='#C8622F';
+    txt='Clínica compatible con infección materna documentada: iniciar tratamiento mientras se completa el estudio (PCR, IgM/IgA tras días 5 y 10, laboratorio de referencia).';}
+  else if(igm==='pos5'||iga==='pos10'){cat='No interpretable aún';col='#C8922E';txt='IgM antes del día 5 o IgA antes del día 10 pueden deberse a contaminación con sangre materna. Repetir pasada esa ventana.';}
+  else if(mat){cat='Expuesto, infección no demostrada';col='#C8922E';
+    txt='IgG positiva con IgM/IgA/PCR negativas no excluye la infección (sensibilidad limitada). Seguimiento de IgG cada 1–2 meses hasta negativizar; fondo de ojo e imagen. Muchos expertos tratan si la infección materna fue en el 3.er trimestre o no se trató durante el embarazo; decida con Infectología.';}
+  else{cat='Probablemente IgG materna transferida';txt='Sin infección aguda materna documentada ni marcadores en el RN: seguimiento de IgG hasta su negativización.';col='#3E7A47';}
+  document.getElementById('toxoOut').innerHTML=`<div class="out" style="border-top:4px solid ${col}"><div class="k">Interpretación</div><h4>${cat}</h4><p>${txt}</p></div>`;
+}
+
+const HSVI=[['h_skin','Piel, ojos o boca (vesículas o PCR de superficie positiva)'],['h_cns','SNC: PCR de VHS en LCR positiva, convulsiones o LCR anormal'],['h_diss','Diseminada: hepatitis, coagulopatía, neumonitis, sepsis, PCR en sangre positiva con compromiso multiorgánico']];
+document.getElementById('hsvItems').innerHTML=HSVI.map(x=>`<div class="chk" id="${x[0]}" onclick="this.classList.toggle('on');renderHsv()"><span class="box"></span><span>${x[1]}</span></div>`).join('');
+function renderHsv(){
+  const sk=on('h_skin'),cn=on('h_cns'),di=on('h_diss');
+  let cat,txt;
+  if(!sk&&!cn&&!di){cat='Marque los compartimentos comprometidos';txt='Ante sospecha, inicie aciclovir IV sin esperar los resultados y complete la toma de muestras.';}
+  else if(di){cat='Enfermedad diseminada';txt='Aciclovir 20 mg/kg/dosis IV cada 8 h por ≥ 21 días. Soporte intensivo (coagulopatía, falla hepática, neumonitis). LCR al final si hubo compromiso SNC.';}
+  else if(cn){cat='Enfermedad del SNC';txt='Aciclovir 20 mg/kg/dosis IV cada 8 h por ≥ 21 días. Repetir PCR de LCR al final: si persiste positiva, continuar 7 días y repetir hasta negativizar.';}
+  else{cat='Enfermedad de piel, ojos y boca (PIOB)';txt='Aciclovir 20 mg/kg/dosis IV cada 8 h × 14 días, siempre que LCR y PCR en sangre hayan descartado diseminación. Valoración por oftalmología.';}
+  document.getElementById('hsvOut').innerHTML=`<div class="out"><div class="k">Forma clínica</div><h4>${cat}</h4><p>${txt}</p>
+   ${(sk||cn||di)?'<p><b style="color:#FFD9C0">Después del tratamiento IV (todas las formas):</b> aciclovir VO 300 mg/m²/dosis cada 8 h × 6 meses (mejora el neurodesarrollo en SNC y reduce recurrencias cutáneas). Neutrófilos a las 2 y 4 semanas y luego mensual.</p>':''}</div>`;
+}
+function v(id){return document.getElementById(id).value;}
+function on(id){return document.getElementById(id).classList.contains('on');}
+
+/* =========================================================
+   TRATAMIENTO
+   ========================================================= */
+const TXT=[['sif','Sífilis'],['cmv','CMV'],['toxo','Toxoplasma'],['hsv','Herpes'],['vzv','Varicela'],['chagas','Chagas'],['vih','VIH / VHB'],['otros','Otros']];
+let txTab='sif';
+document.getElementById('ttabs').innerHTML=TXT.map(t=>`<button data-t="${t[0]}" class="${t[0]===txTab?'on':''}">${t[1]}</button>`).join('');
+document.getElementById('ttabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;txTab=b.dataset.t;document.querySelectorAll('#ttabs button').forEach(x=>x.classList.toggle('on',x===b));renderTx();});
+['w','dol','ga'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{S[id]=parseFloat(document.getElementById(id).value)||0;save();renderTx();}));
+function f(n,d=1){return (Math.round(n*Math.pow(10,d))/Math.pow(10,d)).toLocaleString('es-PA');}
+function row(drug,dose,calc,note){return `<tr><td><b>${drug}</b><br><span style="color:var(--mute);font-size:12px">${dose}</span>${note?`<br><span style="font-size:12px;color:var(--ink2)">${note}</span>`:''}</td><td class="v">${calc}</td></tr>`;}
+function renderTx(){
+  const W=S.w||3, D=S.dol||0, GA=S.ga||38;
+  document.getElementById('w').value=W;document.getElementById('dol').value=D;document.getElementById('ga').value=GA;
+  const bsa=(4*W+7)/(W+90);
+  document.getElementById('kpi').innerHTML=`<div><small>Peso</small><b>${f(W,2)} kg</b></div><div><small>SC (aprox.)</small><b>${f(bsa,3)} m²</b></div><div><small>Edad posnatal</small><b>${D} d</b></div>`;
+  let h='';
+  const T=(rows,foot)=>`<div class="card"><table class="dose"><tr><th>Fármaco · esquema</th><th>Para ${f(W,2)} kg</th></tr>${rows}</table>${foot?`<div class="note" style="margin-bottom:0">${foot}</div>`:''}</div>`;
+  if(txTab==='sif'){
+    const int=D<=7?'cada 12 h':'cada 8 h';
+    h=T(row('Penicilina G cristalina acuosa','50 000 U/kg/dosis IV · c/12 h (≤ 7 días) → c/8 h (> 7 días) · 10 días',`${f(50000*W,0)} U ${int}`,`Edad actual ${D} días → ${int}.`)+
+      row('Penicilina G procaínica','50 000 U/kg/dosis IM c/24 h × 10 días',`${f(50000*W,0)} U c/24 h`)+
+      row('Penicilina G benzatínica','50 000 U/kg IM dosis única (escenarios 2*, 3, 4)',`${f(50000*W,0)} U dosis única`,'*Solo con evaluación completa normal y seguimiento asegurado.'),
+      `<b>Escasez de penicilina benzatínica (2025–2026).</b> Tras el retiro voluntario de lotes de julio de 2025 el suministro sigue limitado; los CDC piden reservarla para embarazadas y lactantes con sífilis congénita posible. En el RN, la penicilina cristalina IV × 10 días es siempre una opción válida. No hay alternativa no penicilínica validada en el RN: en alergia, desensibilizar.`);
+  }
+  if(txTab==='cmv'){
+    h=T(row('Valganciclovir (suspensión 50 mg/mL)','16 mg/kg/dosis VO c/12 h · 6 meses (enfermedad moderada–grave) · 6 semanas (hipoacusia aislada, caso por caso)',`${f(16*W)} mg = ${f(16*W/50,2)} mL c/12 h`)+
+      row('Ganciclovir','6 mg/kg/dosis IV c/12 h (si no tolera VO)',`${f(6*W)} mg c/12 h`),
+      'Iniciar en el primer mes de vida. Neutrófilos semanales × 6 semanas, a las 8 semanas y luego mensual; TGP mensual. Neutropenia &lt; 500/mm³: suspender hasta recuperar (&gt; 750/mm³). Ajustar a la función renal.');
+  }
+  if(txTab==='toxo'){
+    h=T(row('Pirimetamina (susp. 2 mg/mL preparada en farmacia)','1 mg/kg/dosis c/12 h × 2 días → 1 mg/kg/día × 2–6 meses → 1 mg/kg L-M-V hasta completar 12 meses',`Carga: ${f(W)} mg c/12 h<br>Luego: ${f(W)} mg/día`)+
+      row('Sulfadiazina','50 mg/kg/dosis VO c/12 h × 12 meses',`${f(50*W,0)} mg c/12 h`)+
+      row('Ácido folínico (leucovorina)','10 mg VO 3 veces por semana; hasta 1 semana después de suspender pirimetamina','10 mg L-M-V')+
+      row('Prednisona (si proteínas LCR ≥ 1 g/dL o coriorretinitis activa grave)','0.5 mg/kg/dosis c/12 h hasta mejorar',`${f(0.5*W,2)} mg c/12 h`),
+      'La duración de la fase diaria de pirimetamina (2 vs 6 meses) depende de la gravedad: 6 meses en enfermedad moderada–grave. Hemograma semanal al inicio; la neutropenia es el efecto adverso principal. Errores de dosificación de pirimetamina han causado intoxicaciones: verifique la concentración preparada.');
+  }
+  if(txTab==='hsv'){
+    const int=GA<30?'c/8 h (considerar c/12 h si &lt; 30 sem de EG y función renal inmadura; consulte)':'c/8 h';
+    h=T(row('Aciclovir IV','20 mg/kg/dosis c/8 h · 14 días (PIOB) · ≥ 21 días (SNC o diseminada)',`${f(20*W)} mg ${int}`,'Hidratación adecuada; vigilar creatinina y neutrófilos.')+
+      row('Aciclovir VO supresivo','300 mg/m²/dosis c/8 h × 6 meses tras el ciclo IV',`${f(300*bsa,0)} mg c/8 h`,`SC estimada ${f(bsa,3)} m² (fórmula 4P+7 / P+90).`),
+      '<b>RN asintomático de madre con lesiones genitales al parto:</b> a las 24 h tome PCR de superficies y sangre. Si es primer episodio materno (o no clasificable), tome además LCR y ALT e inicie aciclovir empírico hasta resultados; si la madre tiene recurrencia comprobada y las PCR son negativas, puede observarse. Consulte el algoritmo AAP (Kimberlin & Baley).');
+  }
+  if(txTab==='vzv'){
+    const vz=W<=2?62.5:125;
+    h=T(row('Inmunoglobulina varicela-zóster (VariZIG)','62.5 U si ≤ 2 kg · 125 U si > 2 kg · IM, lo antes posible, ≤ 10 días',`${vz} U IM`,'Indicación: varicela materna 5 días antes a 2 días después del parto; prematuros expuestos según edad gestacional/peso.')+
+      row('IGIV (si no hay VariZIG)','400 mg/kg IV dosis única',`${f(400*W,0)} mg`)+
+      row('Aciclovir IV (varicela neonatal)','20 mg/kg/dosis c/8 h × 7–10 días (≥ 21 días si hay compromiso SNC)',`${f(20*W)} mg c/8 h`),
+      'Aislamiento aéreo y de contacto. El síndrome de varicela congénita no se beneficia de aciclovir salvo lesiones activas.');
+  }
+  if(txTab==='chagas'){
+    h=T(row('Benznidazol','5–8 mg/kg/día VO dividido c/12 h × 60 días (algunos protocolos hasta 10 mg/kg/día)',`${f(2.5*W)}–${f(4*W)} mg c/12 h`)+
+      row('Nifurtimox (alternativa)','10–15 mg/kg/día VO dividido c/8 h × 60 días',`${f(10*W/3)}–${f(15*W/3)} mg c/8 h`),
+      'Eficacia cercana al 100 % si se trata en el primer año. Hemograma y función hepática al inicio, a las 2–3 semanas y al final. Control de cura: PCR al terminar y serología cada 6–12 meses hasta negativizar.');
+  }
+  if(txTab==='vih'){
+    let azt;
+    if(GA>=35)azt=`${f(4*W)} mg VO c/12 h (4 mg/kg)`;
+    else if(GA>=30)azt=`${f(2*W)} mg VO c/12 h (2 mg/kg) → 3 mg/kg c/12 h a los 15 días`;
+    else azt=`${f(2*W)} mg VO c/12 h (2 mg/kg) → 3 mg/kg c/12 h a las 4 semanas`;
+    h=T(row('Zidovudina (AZT)',`Según EG (${GA} sem)`,azt)+
+      row('Lamivudina (3TC) — alto riesgo, ≥ 32 sem','2 mg/kg/dosis VO c/12 h (4 mg/kg c/12 h desde las 4 semanas)',`${f(2*W)} mg c/12 h`)+
+      row('Nevirapina — alto riesgo, ≥ 37 sem','6 mg/kg/dosis VO c/12 h (dosis de tratamiento)',`${f(6*W)} mg c/12 h`)+
+      row('Inmunoglobulina antihepatitis B','0.5 mL IM ≤ 12 h (madre HBsAg+)','0.5 mL IM')+
+      row('Vacuna hepatitis B','Dosis pediátrica IM ≤ 12 h','1 dosis'),
+      'Esquemas de VIH perinatal: verifique contra la guía nacional y la guía perinatal NIH vigente (las dosis cambian con la EG y la edad posnatal). Inicie en las primeras 6 h.');
+  }
+  if(txTab==='otros'){
+    h=`<div class="card"><table class="dose"><tr><th>Patógeno</th><th>Conducta</th></tr>
+     <tr><td><b>Rubéola</b></td><td style="font-size:13px">Sin antiviral. Soporte, aislamiento de contacto hasta 1 año (o 2 PCR negativas tras los 3 meses), manejo de catarata, cardiopatía y audición. Notificación inmediata.</td></tr>
+     <tr><td><b>Parvovirus B19</b></td><td style="font-size:13px">Soporte: transfusión de glóbulos rojos por anemia grave (${f(15*W,0)} mL a 15 mL/kg), manejo del hidrops, IGIV en anemia persistente seleccionada.</td></tr>
+     <tr><td><b>Zika / Oropouche</b></td><td style="font-size:13px">Sin antiviral. Soporte y seguimiento multidisciplinario (neurología, oftalmología, audiología, deglución, rehabilitación).</td></tr>
+     <tr><td><b>Enterovirus / parechovirus</b></td><td style="font-size:13px">Soporte (inotrópicos en miocarditis, manejo de coagulopatía). IGIV en enfermedad grave; pocapavir solo por uso compasivo.</td></tr>
+     <tr><td><b>LCMV</b></td><td style="font-size:13px">Sin tratamiento específico; derivación de hidrocefalia, seguimiento neuro-oftalmológico.</td></tr>
+     <tr><td><b>VHC</b></td><td style="font-size:13px">ARN de VHC a los 2–6 meses; antivirales de acción directa desde los 3 años.</td></tr></table></div>`;
+  }
+  document.getElementById('txOut').innerHTML=h+`<div class="note red"><b>Verifique.</b> Las dosis se calculan automáticamente a partir de esquemas publicados. Confirme con el formulario institucional, la función renal y la presentación disponible antes de prescribir.</div>`;
+}
+
+/* =========================================================
+   SEGUIMIENTO
+   ========================================================= */
+const FU={
+ cmv:['Audición (PEATC/audiometría) cada 3–6 meses hasta los 3 años y luego anual hasta la edad escolar, en ambos oídos; la hipoacusia puede ser tardía o progresiva.','Oftalmología al diagnóstico y según hallazgos; una hipoacusia nueva obliga a repetir el fondo de ojo.','Neurodesarrollo y lenguaje en el hogar médico; referir a intervención temprana todo niño con enfermedad o hipoacusia.','Durante valganciclovir: neutrófilos semanales × 6 semanas, a las 8 semanas y luego mensual; TGP mensual.'],
+ toxo:['Fondo de ojo cada 3 meses hasta los 18 meses y luego cada 6–12 meses de por vida: la coriorretinitis recurre (≈ 30 %).','Hemograma semanal el primer mes y luego cada 2–4 semanas durante el tratamiento.','Neurodesarrollo, perímetro cefálico (válvula si hidrocefalia), audición.','Expuestos no tratados: IgG cada 1–2 meses hasta negativizar.'],
+ sif:['RPR/VDRL cada 2–3 meses hasta no reactivo; debe bajar a los 3 meses y negativizarse a los 6.','Títulos estables o en ascenso a los 6–12 meses: reevaluar (incluido LCR) y retratar.','Si el LCR inicial fue anormal, repetir punción solo si los títulos persisten a los 6–12 meses.','Prueba treponémica a partir de los 18 meses. Audición, ojos y neurodesarrollo.'],
+ rub:['Audición seriada (hipoacusia progresiva), oftalmología (glaucoma tardío), cardiología.','Endocrinología a largo plazo: diabetes, tiroiditis; neurodesarrollo.','Aislamiento de contacto y vacunación de contactos.'],
+ hsv:['Aciclovir supresivo 6 meses con neutrófilos a las 2 y 4 semanas y luego mensual.','Neurodesarrollo y oftalmología; vigilancia de recurrencias cutáneas (reevaluar SNC si hay recurrencia con síntomas).'],
+ zika:['PEATC y examen oftalmológico antes del mes; repetir según hallazgos.','Neurología (epilepsia), deglución/nutrición, rehabilitación, ortopedia (artrogriposis).','Apoyo psicosocial a la familia; medición seriada del perímetro cefálico (microcefalia posnatal).'],
+ chagas:['PCR al terminar el tratamiento; serología cada 6–12 meses hasta negativizar.','ECG/ecocardiograma si hubo compromiso cardíaco. Tamizar a hermanos y a la madre (tratarla después de la lactancia reduce transmisión en futuros embarazos).'],
+ parvo:['Hemoglobina y reticulocitos seriados; neurodesarrollo tras hidrops grave o transfusiones fetales.'],
+ general:['Todo RN con infección congénita confirmada: tamiz auditivo diagnóstico, fondo de ojo y neurodesarrollo programados, carné de seguimiento y contrarreferencia al primer nivel.','Notificación epidemiológica y estudio de la madre y contactos según el patógeno.']
+};
+function renderFU(){
+  const r=ranked().filter(x=>x.raw>=3).map(x=>x.k);
+  const order=[...new Set([...r.filter(k=>FU[k]),'cmv','sif','toxo','hsv','rub','zika','chagas','parvo'])];
+  document.getElementById('fuOut').innerHTML=`<div class="card"><h3>Para todos</h3><ul style="margin:0;padding-left:18px;font-size:13.5px">${FU.general.map(x=>`<li>${x}</li>`).join('')}</ul></div>`+
+   order.map((k,i)=>`<details class="acc" ${i===0&&r.length?'open':''}><summary><span class="ddx-tag" style="background:${P[k].c}">${P[k].s}</span><b>${P[k].n}</b></summary><div class="in"><ul>${FU[k].map(x=>`<li>${x}</li>`).join('')}</ul></div></details>`).join('');
+}
+
+/* =========================================================
+   BIBLIOTECA
+   ========================================================= */
+const LIB=[
+ ['cmv','≈0.5 % de nacidos vivos; 10–15 % sintomáticos al nacer. Transmisión mayor en primoinfección (≈30–40 %) pero la mayoría de casos ocurre en madres seropositivas (reinfección/reactivación). Mayor gravedad si la infección es del 1.er trimestre.',
+  'Petequias, HEM, ictericia, microcefalia, calcificaciones periventriculares, coriorretinitis, hipoacusia (principal causa no genética).',
+  'PCR en orina ≤ 21 días (estándar), saliva como alternativa en término y prematuro tardío (confirmar en orina), gota seca si diagnóstico tardío.',
+  'Valganciclovir 6 meses en enfermedad moderada–grave; 6 semanas caso por caso en hipoacusia aislada; no rutinario en leve ni asintomático.',
+  '<span class="new">2026</span> Informe clínico AAP (Pediatrics, oct 2026): recomienda tamizaje auditivo + ampliado (prueba si falla tamiz auditivo, CMV o VIH materno, neuroimagen anormal, calcificaciones intraabdominales y hallazgos clínicos/laboratorio compatibles), nueva terminología y considerar prueba rutinaria en prematuros que no completan el tamiz auditivo antes de los 21 días. <span class="new">2024</span> Consenso europeo ECCI: valaciclovir 8 g/día en primoinfección materna periconcepcional/1.er trimestre para reducir transmisión.'],
+ ['toxo','Transmisión aumenta con la edad gestacional (≈15 % en 1.er trimestre a ≈70 % al término) mientras la gravedad disminuye.',
+  'Tríada coriorretinitis–hidrocefalia–calcificaciones difusas; la mayoría asintomáticos al nacer; secuelas oculares tardías.',
+  'IgG/IgM/IgA del RN (IgM > día 5, IgA > día 10), PCR en sangre/orina/LCR; seguimiento de IgG hasta 12 meses.',
+  'Pirimetamina + sulfadiazina + ácido folínico × 12 meses; prednisona si LCR con proteínas ≥ 1 g/dL o coriorretinitis grave.',
+  'Revisión sistemática 2025 sobre tratamiento y audición: el beneficio sobre la hipoacusia sigue con evidencia limitada; el tratamiento no se modifica.'],
+ ['sif','En aumento sostenido en las Américas. Riesgo de transmisión hasta 70–100 % en sífilis primaria/secundaria no tratada; óbito en hasta 40 %.',
+  'Temprana (< 2 años): rinitis, pénfigo, HEM, osteocondritis, pseudoparálisis, hidrops, anemia, trombocitopenia. Tardía: tríada de Hutchinson, tibia en sable.',
+  'Comparación cuantitativa RPR/VDRL madre–RN y escenarios CDC 1–4.',
+  'Penicilina cristalina IV × 10 días (escenarios 1–2), benzatínica dosis única (2* y 3).',
+  '<span class="new">2025–26</span> Escasez de penicilina benzatínica tras retiro de lotes (julio 2025), con suministro limitado previsto al menos hasta el 3.er trimestre de 2026; priorizar embarazadas y RN. Los CDC informaron en 2025 el 12.º año consecutivo de aumento de sífilis congénita en EE. UU.'],
+ ['rub','Rara desde la eliminación regional (2015); riesgo de defectos hasta ≈90 % si la infección es antes de las 11 semanas, casi nulo después de las 20.',
+  'Catarata, glaucoma, retinopatía, DAP/estenosis pulmonar, hipoacusia, microcefalia, blueberry muffin, bandas metafisarias.',
+  'IgM y RT-PCR (faringe, orina); IgG persistente > 6–12 meses.','Soporte; aislamiento de contacto hasta 1 año.',
+  'Cualquier caso sospechoso es alerta de salud pública por riesgo de reintroducción; verificar inmunidad en mujeres en edad fértil.'],
+ ['hsv','85 % intraparto, 10 % posnatal, 5 % in utero. Riesgo máximo con primoinfección genital materna al parto (25–60 %).',
+  'PIOB (≈45 %), SNC (≈30 %), diseminada (≈25 %). Hasta 40 % de SNC/diseminada sin vesículas.',
+  'PCR de superficies, lesión, sangre y LCR; ALT.','Aciclovir IV 14 o ≥ 21 días y supresión oral 6 meses.',
+  'La PCR en sangre se positiviza en todas las formas: no la use para definir la duración; la forma clínica la define.'],
+ ['vzv','Síndrome de varicela congénita ≈ 0.4–2 % con infección materna entre 8 y 20 semanas.',
+  'Cicatrices en dermatoma, hipoplasia de extremidades, coriorretinitis, catarata, atrofia cortical. Neonatal grave si la madre inicia 5 días antes a 2 días después del parto.',
+  'PCR de lesión; historia materna.','VariZIG / IGIV a expuestos; aciclovir en enfermedad.',''],
+ ['parvo','Transmisión fetal ≈ 30 %; desenlace adverso 5–10 %, mayor antes de las 20 semanas.',
+  'Hidrops no inmune, anemia aplásica fetal, miocarditis; muerte fetal.','PCR en sangre del RN/fetal; IgM.','Transfusión intrauterina/neonatal, soporte.',
+  '<span class="new">2024</span> Repunte en Europa y EE. UU. (alerta CDC HAN, agosto 2024), con hidrops, transfusiones fetales y pérdidas fetales; vigilar hidrops en la región.'],
+ ['zika','Mayor riesgo en el 1.er trimestre; circulación previa en Panamá (2016).',
+  'Microcefalia grave con cráneo colapsado, calcificaciones subcorticales, cicatrices maculares, artrogriposis, hipertonía.',
+  'RT-PCR suero y orina + IgM en los primeros días; LCR si negativos.','Soporte multidisciplinario.',
+  'Reactividad cruzada de IgM con dengue: confirmar con PRNT.'],
+ ['oro','Arbovirus transmitido por Culicoides paraensis, reemergente desde 2023.',
+  'Óbito fetal, microcefalia, artrogriposis y lesiones cerebrales; fenotipo parecido al Zika con rasgos propios en neuroimagen.',
+  'RT-PCR e IgM en madre y RN (laboratorio de referencia).','Soporte; notificación como evento inusual.',
+  '<span class="new">2025</span> OPS: Panamá notificó 501 casos confirmados (SE 1–29), sobre todo en Darién y Panamá Este, con 5 embarazadas confirmadas y sin transmisión vertical documentada hasta ese corte. La OPS trabaja una definición de caso de transmisión vertical (agosto 2025).'],
+ ['chagas','Transmisión vertical ≈ 1–5 % de madres infectadas. Panamá es endémico (Rhodnius pallescens).',
+  'Mayoría asintomáticos; HEM, prematuridad, hidrops, miocarditis, meningoencefalitis.',
+  'Parasitológico/PCR al nacer y a las 4–6 semanas; serología a los 8–10 meses.','Benznidazol o nifurtimox × 60 días (eficacia cercana al 100 % en lactantes).',
+  'Tratar a la madre tras la lactancia reduce la transmisión en embarazos futuros.'],
+ ['lcmv','Arenavirus de roedores; probablemente subdiagnosticado.',
+  'Macro/microcefalia, hidrocefalia, coriorretinitis, calcificaciones periventriculares.','Serología LCMV.','Sin tratamiento específico.',''],
+ ['entero','Infección perinatal por enterovirus o parechovirus, a menudo con fiebre materna periparto.',
+  'Sepsis con cultivos negativos, miocarditis, hepatitis-coagulopatía, meningoencefalitis.','PCR en LCR y sangre.','Soporte; IGIV en casos graves.',''],
+ ['mimic','Considerar ante estudio infeccioso negativo, consanguinidad o recurrencia.',
+  'Calcificaciones en banda, polimicrogiria, microcefalia, hepatopatía, trombocitopenia, falla hepática neonatal.',
+  'RM, firma de interferón, exoma/genoma en trío, ferritina y biopsia de mucosa oral, frotis/citometría.',
+  'Según etiología (p. ej., IGIV y exanguinotransfusión en hemocromatosis neonatal).','']
+];
+function renderLib(){
+  document.getElementById('lib').innerHTML=LIB.map(x=>{const p=P[x[0]];return `<details class="acc"><summary><span class="ddx-tag" style="background:${p.c}">${p.s}</span><b>${p.n}</b></summary><div class="in">
+   <h5>Epidemiología y transmisión</h5><p style="margin:0">${x[1]}</p>
+   <h5>Clínica</h5><p style="margin:0">${x[2]}</p>
+   <h5>Diagnóstico</h5><p style="margin:0">${x[3]}</p>
+   <h5>Tratamiento</h5><p style="margin:0">${x[4]}</p>
+   ${x[5]?`<h5>Novedades</h5><p style="margin:0">${x[5]}</p>`:''}</div></details>`;}).join('')+
+   `<details class="acc"><summary><span class="ddx-tag" style="background:#666">OTROS</span><b>Otros agentes a recordar</b></summary><div class="in"><ul>
+    <li><b>Malaria congénita</b> (procedencia de Darién o zonas con transmisión): fiebre, anemia, HEM a las 2–8 semanas; gota gruesa.</li>
+    <li><b>Tuberculosis congénita</b> (criterios de Cantwell): HEM, dificultad respiratoria, complejo primario hepático.</li>
+    <li><b>Listeria</b>: sepsis temprana, granulomatosis infantiséptica; no es TORCH pero entra en el diferencial de hepatoesplenomegalia con exantema.</li>
+    <li><b>Dengue vertical</b>: fiebre, trombocitopenia y fuga capilar en los primeros días (ver CDSS Dengue Neonatal).</li></ul></div></details>`;
+}
+
+/* =========================================================
+   CASOS
+   ========================================================= */
+const CASES=[
+ {t:'Caso 1 · El PEG con petequias',d:'RN de término, 2 150 g, PC −2.4 DE. Petequias generalizadas, hígado a 4 cm. Plaquetas 42 000/mm³, TGP 180 U/L. Falla bilateral del PEATC. Madre con un hijo de 2 años en guardería.',
+  sel:['m_ninos','f_rciu','f_micro','f_pete','f_hem','f_plaq','f_audio','f_ict'],a:'CMV congénito con enfermedad moderada–grave (microcefalia + compromiso sistémico + hipoacusia). PCR en orina antes de los 21 días; USG/RM cerebral buscando calcificaciones periventriculares; valganciclovir 6 meses. No olvide RPR/VDRL.'},
+ {t:'Caso 2 · La nariz que no deja de sangrar',d:'RN de 36 semanas, 3 días de vida. Rinitis serosanguinolenta, descamación palmoplantar, hepatoesplenomegalia y llanto al mover el brazo derecho. Madre con VDRL 1:32 en el parto, sin control prenatal ni tratamiento.',
+  sel:['m_sif','m_sifnt','m_npc','f_rinitis','f_rashsif','f_hem','f_hueso','f_prema'],a:'Sífilis congénita, escenario 1. RPR del RN, LCR, hemograma, Rx de huesos largos; penicilina G cristalina IV 10 días. Tratar madre y pareja, notificar.'},
+ {t:'Caso 3 · La cabeza que crece',d:'RN de término, PC +2.5 DE con fontanela tensa. Fondo de ojo con coriorretinitis macular bilateral. USG: ventriculomegalia y calcificaciones dispersas en el parénquima. Madre cuidaba gatos y comía carne poco cocida; fiebre y adenopatías en el 2.º trimestre.',
+  sel:['m_gato','f_macro','f_corio','f_calcdif','f_ventri','f_lcr'],a:'Toxoplasmosis congénita (tríada clásica). Diferencial obligado: LCMV (pregunte por roedores). IgG/IgM/IgA, PCR en LCR; pirimetamina + sulfadiazina + folínico 12 meses y prednisona si proteínas ≥ 1 g/dL.'},
+ {t:'Caso 4 · Sepsis sin germen al día 9',d:'RN de término, 9 días. Hipotermia, letargia, convulsiones focales, TGP 1 400 U/L, coagulopatía. Hemocultivo a las 48 h negativo. Sin vesículas. Madre con fiebre y diarrea en la semana previa al parto.',
+  sel:['m_fiebre','f_sepsis','f_conv','f_hepat','f_lcr'],a:'Diferencial real entre VHS diseminado y enterovirus/parechovirus. Aciclovir IV inmediato mientras llegan PCR de VHS (superficies, sangre, LCR) y de EV/HPeV. La ausencia de vesículas no descarta herpes.'},
+ {t:'Caso 5 · Desde Darién',d:'RN de término, PC −3.6 DE con cráneo colapsado y piel redundante, artrogriposis de rodillas, hipertonía. TC: calcificaciones subcorticales. Madre de Darién con fiebre, cefalea intensa y mialgias en el 1.er trimestre.',
+  sel:['m_oro','m_zika','f_microsev','f_micro','f_artro','f_calcsub','f_hipert'],a:'Zika congénito vs Oropouche vertical: estudie ambos (RT-PCR e IgM en madre y RN, laboratorio de referencia), descarte CMV, toxoplasma y sífilis, y notifique como evento inusual. Si todo es negativo y hay consanguinidad, piense en pseudo-TORCH.'},
+ {t:'Caso 6 · El hidrops pálido',d:'RN de 34 semanas con hidrops, Hb 6.2 g/dL, reticulocitos 0.3 %, Coombs negativo. La madre cuidó niños con “mejillas abofeteadas” a las 16 semanas.',
+  sel:['m_parvo','f_hidrops','f_anemia','f_prema'],a:'Parvovirus B19 (anemia arregenerativa). PCR B19 en sangre; transfusión; ecocardiograma por miocarditis. Diferencial: sífilis, Chagas, CMV; el Coombs negativo aleja la isoinmunización.'},
+ {t:'Caso 7 · Pupilas blancas',d:'RN de 37 semanas, PEG. Leucocoria bilateral (catarata), soplo continuo por DAP, falla del PEATC, lesiones violáceas tipo blueberry muffin. Madre extranjera, no vacunada, con exantema y fiebre a las 9 semanas.',
+  sel:['m_rub','f_rciu','f_cat','f_dap','f_audio','f_blue','f_plaq'],a:'Rubéola congénita. IgM y RT-PCR faríngea/orina, aislamiento de contacto, notificación INMEDIATA (alerta de reintroducción). Ecocardiograma, oftalmología y audiología.'}
+];
+/* =========================================================
+   RUTA DIAGNÓSTICA TORCH · 5 CASOS (uno por letra)
+   ========================================================= */
+const TC=[
+ {L:'T',k:'toxo',t:'Toxoplasmosis · “El RN sano de una madre que seroconvirtió”',
+  v:'RN de 38 semanas, 3 100 g, PC normal, examen físico sin alteraciones. Madre con IgG para toxoplasma negativa a las 12 semanas y IgG + IgM positivas con avidez baja a las 30 semanas; recibió solo espiramicina. Tenía gatos en casa.',
+  chain:['Seroconversión materna','IgG/IgM/IgA del RN','IgM ≥ 5 d · IgA ≥ 10 d','PCR LCR + imagen + fondo de ojo','Tratar 12 meses'],
+  sel:['m_toxo','m_gato','f_corio','f_calcdif'],
+  f:[
+   ['sos','Sospecha','Infección materna documentada en el 3.er trimestre: la transmisión es alta (≈ 60 %) y la mayoría de los RN infectados son asintomáticos al nacer. Un examen normal NO descarta la infección.'],
+   ['test','Día 2 · Serología del RN (suero periférico)','IgG positiva · IgM (ISAGA) positiva · IgA no hecha.'],
+   ['dec','Interpretación','La IgG del RN es materna y no sirve sola. Una IgM positiva antes del día 5 puede ser contaminación con sangre materna: <b>no es interpretable aún</b>. Repetir.'],
+   ['test','Día 7 · Repetición','IgM (ISAGA) positiva · IgA positiva (se repite tras el día 10: positiva).'],
+   ['dec','Interpretación','IgM ≥ día 5 e IgA ≥ día 10 positivas: <b>infección congénita confirmada</b>.'],
+   ['test','Extensión antes de tratar','LCR: proteínas 0.6 g/dL, PCR toxoplasma negativa · USG transfontanelar: 2 calcificaciones parenquimatosas puntiformes dispersas · Fondo de ojo: cicatriz coriorretiniana periférica en ojo derecho, no macular, inactiva · PEATC normal · Hemograma normal.'],
+   ['dx','Diagnóstico','Toxoplasmosis congénita con compromiso ocular y cerebral leve. La PCR negativa en LCR no excluye (sensibilidad limitada).'],
+   ['tx','Tratamiento','Pirimetamina 1 mg/kg c/12 h × 2 días → 1 mg/kg/día × 6 meses → 1 mg/kg L-M-V hasta 12 meses + sulfadiazina 50 mg/kg c/12 h + ácido folínico 10 mg 3 veces/semana. Sin prednisona: proteínas del LCR < 1 g/dL y lesión ocular inactiva no macular.'],
+   ['fu','Seguimiento','Hemograma semanal (neutropenia), fondo de ojo cada 3 meses hasta los 18 meses y luego de por vida, neurodesarrollo y audición.']],
+  pearls:['Nunca diagnostique ni descarte con la IgG del RN.','Ventanas: IgM después del día 5, IgA después del día 10.','Un RN asintomático de madre con seroconversión debe estudiarse completo: fondo de ojo, imagen y LCR.']},
+
+ {L:'O',k:'sif',t:'Otros · Sífilis · “Tratada… pero no a tiempo”',
+  v:'RN de 39 semanas, 3 300 g, examen físico normal. Madre con VDRL 1:8 y prueba treponémica positiva a las 36 semanas (sífilis de duración desconocida); recibió UNA dosis de penicilina benzatínica 2.4 MU 12 días antes del parto. Al parto: madre VDRL 1:8, RN RPR 1:4.',
+  chain:['RPR/VDRL cuantitativo madre–RN','¿Título RN ≥ 4×?','¿Tratamiento materno adecuado y ≥ 30 d?','Escenario CDC','Evaluación completa','Reclasificar si aparece daño'],
+  sel:['m_sif','f_hueso'],
+  f:[
+   ['sos','Sospecha','Toda serología materna reactiva obliga a clasificar al RN según los escenarios CDC. Hasta dos tercios de los RN infectados nacen sin signos.'],
+   ['test','Al nacer · RPR/VDRL del RN (suero, no cordón)','RPR del RN 1:4 frente a madre 1:8 → título del RN menor de 4 veces el materno. Examen físico normal.'],
+   ['dec','¿Tratamiento materno adecuado?','NO, por dos motivos: (1) sífilis de duración desconocida requiere 3 dosis semanales; (2) la dosis se aplicó menos de 30 días antes del parto.'],
+   ['dec','Clasificación inicial','<b>Escenario 2 · sífilis congénita posible</b> → evaluación completa: LCR, hemograma y Rx de huesos largos.'],
+   ['test','Evaluación completa','LCR: VDRL no reactivo, 8 leucocitos/mm³, proteínas 90 mg/dL (aceptables para un RN) · Hemograma y plaquetas normales · <b>Rx de huesos largos: metafisitis bilateral en radio distal y tibia proximal</b>.'],
+   ['dec','Reclasificación','El hallazgo óseo es evidencia de enfermedad activa: pasa a <b>escenario 1 · sífilis congénita confirmada/muy probable</b>. La dosis única de benzatínica ya no es opción.'],
+   ['tx','Tratamiento','Penicilina G cristalina 50 000 U/kg/dosis IV c/12 h los primeros 7 días y c/8 h después, completando 10 días. Si se pierde más de un día, reiniciar el ciclo. Tratar a la madre (completar esquema) y a su pareja; notificar.'],
+   ['fu','Seguimiento','RPR a los 3 meses (1:1) y a los 6 meses (no reactivo). Audición, fondo de ojo y neurodesarrollo. Prueba treponémica a los 18 meses.']],
+  pearls:['Adecuado = penicilina benzatínica según estadio, iniciada ≥ 30 días antes del parto y documentada.','Un título del RN menor de 4× no descarta infección.','La evaluación completa puede “subir” el escenario: por eso se hace.']},
+
+ {L:'R',k:'rub',t:'Rubéola · “La alerta de salud pública”',
+  v:'RN de 37 semanas, 2 250 g (PEG). Lesiones violáceas tipo “blueberry muffin”, leucocoria izquierda, soplo continuo, plaquetas 48 000/mm³. Falla bilateral del tamiz auditivo. Madre sin carné de vacunación, llegó de otro país en el primer trimestre y tuvo fiebre con exantema y adenopatías retroauriculares a las 8 semanas.',
+  chain:['Fenotipo + exantema materno 1.er trimestre','Notificar y aislar YA','IgM + RT-PCR faringe/orina','Excluir CMV y sífilis','Mapa de órganos','Aislamiento hasta 1 año'],
+  sel:['m_rub','f_rciu','f_blue','f_plaq','f_cat','f_dap','f_audio','f_celery'],
+  f:[
+   ['sos','Sospecha','Catarata + cardiopatía + sordera con exantema materno antes de las 12 semanas: síndrome de rubéola congénita hasta demostrar lo contrario.'],
+   ['acc','Acción inmediata (antes de cualquier resultado)','Notificación inmediata a Epidemiología · aislamiento de contacto · solo personal con inmunidad documentada · coordinar muestras con el laboratorio de referencia nacional.'],
+   ['test','Día 1 · Pruebas específicas','IgM de rubéola en suero: <b>positiva</b> · RT-PCR en hisopado faríngeo y orina: <b>positivas</b>.'],
+   ['test','Diferencial en paralelo','PCR de CMV en orina: negativa · RPR del RN y madre: no reactivos · toxoplasma IgM/IgA: negativas.'],
+   ['test','Mapa de órganos','Ecocardiograma: DAP + estenosis de ramas pulmonares · Oftalmología: catarata nuclear izquierda y retinopatía en “sal y pimienta” · PEATC: hipoacusia neurosensorial bilateral severa · Rx: bandas metafisarias radiolúcidas (“tallo de apio”) · USG cerebral: vasculopatía lenticuloestriada.'],
+   ['dx','Diagnóstico','Síndrome de rubéola congénita confirmado (laboratorio + clínica).'],
+   ['tx','Manejo','Sin antiviral. Cirugía de catarata precoz, manejo del DAP, amplificación auditiva / evaluación para implante coclear, plaquetas solo si sangra. Investigación de contactos y vacunación.'],
+   ['fu','Seguimiento','Aislamiento hasta el año o hasta 2 RT-PCR negativas con 1 mes de diferencia después de los 3 meses. Glaucoma tardío, endocrinopatías (diabetes, tiroides), neurodesarrollo.']],
+  pearls:['La región eliminó la rubéola endémica en 2015: cada caso es una alerta.','El RN excreta virus hasta un año: es contagioso para embarazadas susceptibles.','Riesgo de defectos máximo antes de las 12 semanas; casi nulo después de las 20.']},
+
+ {L:'C',k:'cmv',t:'Citomegalovirus · “El que solo falló el tamiz auditivo”',
+  v:'RN de 39 semanas, 3 400 g, PC normal, examen físico normal. A las 36 h falla el tamiz auditivo del oído derecho en dos intentos. Madre sana, con un hijo de 18 meses en guardería.',
+  chain:['Falla del tamiz auditivo','PCR CMV saliva/orina ≤ 21 d','Confirmar en orina','Evaluación de enfermedad','Categoría AAP 2026','Decisión de tratamiento'],
+  sel:['m_ninos','f_audio','f_lsv'],
+  f:[
+   ['sos','Sospecha','La AAP (2026) recomienda prueba de CMV a todo RN que no pasa el tamiz auditivo (estrategia auditiva + ampliada). El CMV es la principal causa no genética de hipoacusia neurosensorial.'],
+   ['test','Día 3 · PCR de CMV en saliva','Positiva (muestra tomada antes de la toma de pecho).'],
+   ['dec','Interpretación','La saliva puede dar falsos positivos por leche materna: <b>confirmar en orina</b> dentro de la ventana de 21 días.'],
+   ['test','Día 5 · PCR de CMV en orina','<b>Positiva</b> → infección congénita por CMV confirmada.'],
+   ['test','Evaluación de enfermedad','Hemograma y plaquetas normales (210 000/mm³) · TGO/TGP y bilirrubinas normales · USG transfontanelar: vasculopatía lenticuloestriada leve aislada, sin calcificaciones ni quistes · Fondo de ojo normal · <b>PEATC diagnóstico: hipoacusia neurosensorial moderada derecha</b>, izquierda normal.'],
+   ['dec','Categoría','La vasculopatía lenticuloestriada aislada es inespecífica y no define enfermedad. Categoría: <b>CMVc con hipoacusia neurosensorial aislada</b>.'],
+   ['tx','Decisión','Puede ofrecerse valganciclovir 16 mg/kg c/12 h × 6 semanas, caso por caso, tras consulta con Infectología Pediátrica y decisión compartida con la familia (evidencia limitada y discordante). Si se trata: neutrófilos semanales y TGP.'],
+   ['fu','Seguimiento','Audición en AMBOS oídos cada 3–6 meses hasta los 3 años y luego anual; riesgo de progresión y de afectación contralateral. Intervención temprana y lenguaje.']],
+  pearls:['La ventana de 21 días es lo que permite llamarlo congénito.','Saliva positiva = confirmar en orina.','Vasculopatía lenticuloestriada aislada no es enfermedad por CMVc.']},
+
+ {L:'H',k:'hsv',t:'Herpes simple · “Las vesículas del electrodo”',
+  v:'RN de término, 7 días de vida. Vesículas agrupadas sobre base eritematosa en el cuero cabelludo, en el sitio del electrodo de monitoreo fetal; irritabilidad y una crisis focal. Madre sin antecedente conocido de herpes; trabajo de parto con RPM de 20 h.',
+  chain:['Vesículas / convulsión / sepsis días 5–21','Muestras completas','Aciclovir IV sin esperar','LCR + PCR sangre + ALT','Forma clínica define duración','Supresión oral 6 meses'],
+  sel:['m_rpm','f_ves','f_conv','f_lcr'],
+  f:[
+   ['sos','Sospecha','Vesículas en un RN de 5–21 días son herpes hasta demostrar lo contrario. Casi 70 % de las madres de RN con herpes no tienen historia conocida.'],
+   ['acc','Acción inmediata','Tomar PCR de VHS de vesícula, superficies (conjuntiva, boca, nasofaringe, ano), PCR en sangre, LCR (citoquímico + PCR) y ALT, e <b>iniciar aciclovir 20 mg/kg c/8 h IV sin esperar resultados</b>.'],
+   ['test','Resultados','PCR de vesícula: VHS-2 positivo · PCR en sangre: positiva · LCR: 40 leucocitos/mm³, proteínas 120 mg/dL, <b>PCR VHS positiva</b> · ALT 55 U/L, coagulación normal.'],
+   ['dec','Clasificación','La afectación del SNC define la forma, aunque las lesiones sean cutáneas: <b>enfermedad del SNC</b>. La PCR en sangre positiva aparece en todas las formas y no define por sí sola enfermedad diseminada.'],
+   ['test','Extensión','RM cerebral: restricción en lóbulo temporal derecho · EEG: actividad epileptiforme focal · Oftalmología: sin queratitis.'],
+   ['tx','Tratamiento','Aciclovir IV 20 mg/kg c/8 h por 21 días como mínimo, con hidratación y control de creatinina y neutrófilos; manejo de crisis.'],
+   ['dec','Día 21 · Control','PCR de VHS en LCR: negativa → suspender IV. (Si fuera positiva: continuar 7 días y repetir.)'],
+   ['fu','Seguimiento','Aciclovir VO 300 mg/m²/dosis c/8 h × 6 meses (mejora el neurodesarrollo). Neutrófilos a las 2 y 4 semanas y luego mensual. Neurodesarrollo y oftalmología.']],
+  pearls:['La forma piel-ojos-boca solo se acepta con LCR negativo: 14 días.','SNC o diseminada: ≥ 21 días y PCR de LCR negativa al final.','Ausencia de vesículas no descarta herpes (hasta 40 % en SNC/diseminada).']}
+];
+const FICON={sos:['Sospecha','#B4532A','?'],acc:['Acción','#A3271F','!'],test:['Prueba','#2F6F6A','◉'],dec:['Decisión','#C8922E','◆'],dx:['Diagnóstico','#2A1A12','✓'],tx:['Tratamiento','#3E7A47','℞'],fu:['Seguimiento','#5E6B3A','↻']};
+let tcCur=0,tcStep=1;
+function renderTCases(){
+  const el=document.getElementById('tcases'); if(!el)return;
+  const c=TC[tcCur],p=P[c.k];
+  const tabs=TC.map((x,i)=>`<button class="tl${i===tcCur?' on':''}" onclick="tcGo(${i})"><b>${x.L}</b><span>${P[x.k].s}</span></button>`).join('');
+  const chain=c.chain.map((s,i)=>`<span class="ch">${s}</span>${i<c.chain.length-1?'<span class="ar">→</span>':''}`).join('');
+  const steps=c.f.map((s,i)=>{const ic=FICON[s[0]];const hid=i>=tcStep?' style="display:none"':'';
+    return `<div class="fl"${hid}><div class="fl-i" style="background:${ic[1]}">${ic[2]}</div><div class="fl-b" style="border-color:${ic[1]}"><div class="fl-k" style="color:${ic[1]}">${ic[0]} · ${s[1]}</div><div>${s[2]}</div></div></div>`;}).join('');
+  const done=tcStep>=c.f.length;
+  el.innerHTML=`<div class="tletters">${tabs}</div>
+   <div class="case" style="border-top:4px solid ${p.c}">
+    <div style="display:flex;align-items:center;gap:10px"><span class="bigL" style="background:${p.c}">${c.L}</span><h4 style="flex:1">${c.t}</h4></div>
+    <p>${c.v}</p>
+    <div class="grp">Esquema diagnóstico</div><div class="chain">${chain}</div>
+    <div class="grp">Ruta paso a paso <span style="float:right">${Math.min(tcStep,c.f.length)} / ${c.f.length}</span></div>
+    <div class="flow">${steps}</div>
+    ${done?`<div class="note gold"><b>Perlas.</b><ul style="margin:4px 0 0;padding-left:18px">${c.pearls.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}
+    <div class="row">
+     ${done?`<button class="btn-s" onclick="tcStep=1;renderTCases()">Reiniciar ruta</button>`:`<button class="btn-s fill" onclick="tcStep++;renderTCases()">Siguiente paso ↓</button><button class="btn-s" onclick="tcStep=${c.f.length};renderTCases()">Ver todo</button>`}
+     <button class="btn-s" onclick="loadTC(${tcCur})">Cargar en el CDSS</button>
+     ${tcCur<TC.length-1?`<button class="btn-s" onclick="tcGo(${tcCur+1})">Caso ${TC[tcCur+1].L} →</button>`:''}
+    </div></div>`;
+}
+function tcGo(i){tcCur=i;tcStep=1;renderTCases();document.getElementById('tcases').scrollIntoView({behavior:'smooth',block:'start'});}
+function loadTC(i){S.sel={};TC[i].sel.forEach(id=>S.sel[id]=true);save();renderList(MAT,'maternal');renderList(NEO,'neonatal');go(2);}
+
+function renderCases(){
+  document.getElementById('cases').innerHTML=CASES.map((c,i)=>`<div class="case"><h4>${c.t}</h4><p>${c.d}</p>
+   <div class="row"><button class="btn-s fill" onclick="loadCase(${i})">Cargar en el CDSS</button><button class="btn-s" onclick="document.getElementById('rv${i}').classList.toggle('on')">Ver discusión</button></div>
+   <div class="reveal" id="rv${i}">${c.a}</div></div>`).join('');
+}
+function loadCase(i){S.sel={};CASES[i].sel.forEach(id=>S.sel[id]=true);save();renderList(MAT,'maternal');renderList(NEO,'neonatal');go(2);}
+
+/* =========================================================
+   REFERENCIAS
+   ========================================================= */
+const REFS=[
+ 'American Academy of Pediatrics, Committee on Infectious Diseases. Care of the Infant With Congenital Cytomegalovirus Infection: Clinical Report. Pediatrics. 2026;158(4):e2026078595.',
+ 'American Academy of Pediatrics. Red Book: 2024–2027 Report of the Committee on Infectious Diseases. 33.ª ed. Itasca, IL: AAP; 2024.',
+ 'Rawlinson WD, Boppana SB, Fowler KB, et al. Congenital cytomegalovirus infection in pregnancy and the neonate: consensus recommendations for prevention, diagnosis, and therapy. Lancet Infect Dis. 2017;17:e177–e188.',
+ 'Leruez-Ville M, Chatzakis C, Lilleri D, et al. Consensus recommendation for prenatal, neonatal and postnatal management of congenital cytomegalovirus infection from the European Congenital Infection Initiative (ECCI). Lancet Reg Health Eur. 2024;40:100892.',
+ 'Kimberlin DW, Jester PM, Sánchez PJ, et al. Valganciclovir for symptomatic congenital cytomegalovirus disease. N Engl J Med. 2015;372:933–943.',
+ 'Workowski KA, Bachmann LH, Chan PA, et al. Sexually Transmitted Infections Treatment Guidelines, 2021. MMWR Recomm Rep. 2021;70(4):1–187.',
+ 'CDC/NCHHSTP. Bicillin L-A (penicilina G benzatínica): actualizaciones de escasez y priorización, 2025–2026; alertas HAN de departamentos de salud (Nueva York 2026, Nebraska 2026, Minnesota 2025).',
+ 'Maldonado YA, Read JS; Committee on Infectious Diseases. Diagnosis, Treatment, and Prevention of Congenital Toxoplasmosis in the United States. Pediatrics. 2017;139(2):e20163860.',
+ 'Kimberlin DW, Baley J; Committee on Infectious Diseases; Committee on Fetus and Newborn. Guidance on management of asymptomatic neonates born to women with active genital herpes lesions. Pediatrics. 2013;131:e635–e646.',
+ 'Kimberlin DW, Whitley RJ, Wan W, et al. Oral acyclovir suppression and neurodevelopment after neonatal herpes. N Engl J Med. 2011;365:1284–1292.',
+ 'CDC. Increase in Human Parvovirus B19 Activity in the United States. HAN 00514, agosto 2024; y Contag S, et al. MMWR. 2024;73(47):1087–1089.',
+ 'Adebanjo T, Godfred-Cato S, Viens L, et al. Update: Interim Guidance for the Diagnosis, Evaluation, and Management of Infants with Possible Congenital Zika Virus Infection. MMWR. 2017;66:1089–1099.',
+ 'OPS/OMS. Actualización epidemiológica: Oropouche en la Región de las Américas, 13 de agosto de 2025; Alerta epidemiológica sobre transmisión vertical, julio–agosto 2024; Reunión técnica sobre vigilancia de transmisión vertical, São Paulo, agosto 2025.',
+ 'Panagiotakopoulos L, Sandul AL, Conners EE, et al. CDC Recommendations for Hepatitis C Testing Among Perinatally Exposed Infants and Children — United States, 2023. MMWR Recomm Rep. 2023;72(4):1–19.',
+ 'OPS. Guía para el diagnóstico y el tratamiento de la enfermedad de Chagas. Washington, D.C.: OPS; 2018.',
+ 'Panel on Treatment of HIV During Pregnancy and Prevention of Perinatal Transmission. Recommendations for the Use of Antiretroviral Drugs During Pregnancy and Interventions to Reduce Perinatal HIV Transmission in the United States. NIH/HHS (versión vigente).',
+ 'de Jong EP, Vossen AC, Walther FJ, Lopriore E. How to use… neonatal TORCH testing. Arch Dis Child Educ Pract Ed. 2013;98:93–98.',
+ 'Crow YJ, Stetson DB. The type I interferonopathies: 10 years on. Nat Rev Immunol. 2022;22:471–483.',
+ 'Australasian Neonatal Medicines Formulary (ANMF). Pirimetamina y sulfadiazina: monografías neonatales, 2022.'
+];
+
+/* =========================================================
+   ÍCONO + MANIFIESTO + SERVICE WORKER
+   ========================================================= */
+function makeIcon(size){
+  const c=document.createElement('canvas');c.width=c.height=size;const x=c.getContext('2d');
+  const g=x.createRadialGradient(size/2,size*.38,size*.05,size/2,size/2,size*.75);
+  g.addColorStop(0,'#5A2A16');g.addColorStop(1,'#140A06');x.fillStyle=g;x.fillRect(0,0,size,size);
+  x.strokeStyle='rgba(233,162,124,.55)';x.lineWidth=size*.012;
+  [.40,.33].forEach(r=>{x.beginPath();x.arc(size/2,size/2,size*r,0,Math.PI*2);x.stroke();});
+  const cg=x.createRadialGradient(size/2,size*.46,0,size/2,size/2,size*.24);cg.addColorStop(0,'#FFD7BC');cg.addColorStop(.5,'#E9925F');cg.addColorStop(1,'#8C3B1C');
+  x.fillStyle=cg;x.beginPath();x.arc(size/2,size/2,size*.24,0,Math.PI*2);x.fill();
+  x.fillStyle='#2A120A';x.font=`900 ${size*.3}px Fraunces, Georgia, serif`;x.textAlign='center';x.textBaseline='middle';x.fillText('T',size/2,size*.52);
+  ['O','R','C','H'].forEach((l,i)=>{const a=-Math.PI/2+(i+1)*Math.PI*2/5;const px=size/2+Math.cos(a)*size*.365,py=size/2+Math.sin(a)*size*.365;
+    x.fillStyle='#2A120A';x.beginPath();x.arc(px,py,size*.055,0,Math.PI*2);x.fill();x.strokeStyle='#F0A77E';x.lineWidth=size*.008;x.stroke();
+    x.fillStyle='#FFD9C0';x.font=`900 ${size*.06}px Fraunces, Georgia, serif`;x.fillText(l,px,py+size*.004);});
+  return c.toDataURL('image/png');
+}
+function setupPWA(){
+  try{
+    const i180=makeIcon(180),i512=makeIcon(512);
+    document.getElementById('appleIcon').href=i180;
+    const man={name:'CDSS TORCH Neonatal',short_name:'TORCH Neo',start_url:'./',scope:'./',display:'standalone',background_color:'#1A0F0A',theme_color:'#1A0F0A',lang:'es',
+      icons:[{src:i180,sizes:'180x180',type:'image/png'},{src:i512,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+    const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:'application/manifest+json'}));document.head.appendChild(l);
+  }catch(e){}
+  if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+}
+
+/* =========================================================
+   INICIO
+   ========================================================= */
+function resetAll(){S.sel={};save();renderList(MAT,'maternal');renderList(NEO,'neonatal');
+  document.querySelectorAll('#cmvItems .chk,#hsvItems .chk').forEach(x=>x.classList.remove('on'));go(0);}
+buildNav();renderList(MAT,'maternal');renderList(NEO,'neonatal');renderLib();renderCases();renderTCases();
+document.getElementById('refs').innerHTML=REFS.map(r=>`<li>${r}</li>`).join('');
+go(0);setupPWA();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{try{document.getElementById('appleIcon').href=makeIcon(180);}catch(e){}});
+</script>
+</body>
+</html>
